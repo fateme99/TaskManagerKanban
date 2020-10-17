@@ -14,7 +14,7 @@ import android.os.Bundle;
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.controller.fragment.MainFragment;
 import com.example.taskmanagerkanban.utils.TaskState;
-import com.google.android.material.tabs.TabItem;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -23,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 mPager2;
 
     public Intent newIntent(Context context){
-        Intent intent=new Intent(context,MainActivity.class);
-        return intent;
+        return new Intent(context,MainActivity.class);
     }
 
     @Override
@@ -63,9 +62,8 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            MainFragment mainFragment=MainFragment.newInstance(mTaskState);
 
-            return mainFragment;
+            return MainFragment.newInstance(mTaskState);
         }
 
         @Override
