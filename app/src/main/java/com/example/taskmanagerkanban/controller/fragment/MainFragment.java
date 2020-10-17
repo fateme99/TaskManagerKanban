@@ -14,9 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.taskmanagerkanban.R;
-import com.example.taskmanagerkanban.controller.activity.MainActivity;
 import com.example.taskmanagerkanban.model.Task;
-import com.example.taskmanagerkanban.utils.TaskState;
+import com.example.taskmanagerkanban.model.TaskState;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.controller.fragment.MainFragment;
-import com.example.taskmanagerkanban.utils.TaskState;
+import com.example.taskmanagerkanban.model.TaskState;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

@@ -7,12 +7,21 @@ public class Task {
     private String mDescribtion;
     private String mDate;
     private String mClock;
+    private TaskState mTaskState;
 
     public Task(String title, String describtion, String date, String clock) {
         mTitle = title;
         mDescribtion = describtion;
         mDate = date;
         mClock = clock;
+    }
+
+    public TaskState getTaskState() {
+        return mTaskState;
+    }
+
+    public void setTaskState(TaskState taskState) {
+        mTaskState = taskState;
     }
 
     public String getTitle() {

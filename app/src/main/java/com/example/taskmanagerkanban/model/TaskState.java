@@ -1,4 +1,4 @@
-package com.example.taskmanagerkanban.utils;
+package com.example.taskmanagerkanban.model;
 
 import java.io.Serializable;
 
