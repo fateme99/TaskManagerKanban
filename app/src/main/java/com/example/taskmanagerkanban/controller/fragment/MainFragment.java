@@ -16,15 +16,20 @@ import android.widget.TextView;
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.model.TaskState;
+import com.example.taskmanagerkanban.repository.TaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.taskmanagerkanban.model.TaskState.DOING;
+import static com.example.taskmanagerkanban.model.TaskState.DONE;
+import static com.example.taskmanagerkanban.model.TaskState.TODO;
+
 
 public class MainFragment extends Fragment {
-    public static final String ARG_TASK_STATE="com.example.taskmanagerkanban.taskState";
     private RecyclerView mRecyclerView;
-    private TaskState mTaskState;
+    private TaskRepository mTaskRepository;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -34,7 +39,6 @@ public class MainFragment extends Fragment {
         Bundle args = new Bundle();
 
         MainFragment fragment = new MainFragment();
-        args.putSerializable(ARG_TASK_STATE,taskState);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +46,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTaskState= (TaskState) getArguments().getSerializable(ARG_TASK_STATE);
+        mTaskRepository=TaskRepository.getInstance(getContext());
     }
 
     @Override
@@ -59,18 +63,26 @@ public class MainFragment extends Fragment {
     }
     private void initView(){
         //TODO : get tasks
-        List<Task>tasks=new ArrayList<>();
-        tasks.add(new Task("tamrin 1" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 2" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 3" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 4" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 5" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 6" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 7" , "desc1","1394/5/14","23:14"));
-        tasks.add(new Task("tamrin 8" , "desc1","1394/5/14","23:14"));
+
+        /*mTaskRepository.insert(new Task("tamrin 1" , "desc1","1394/5/14","23:14",TODO));
+        mTaskRepository.insert(new Task("tamrin 2" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 3" , "desc1","1394/5/14","23:14",DONE));
+        mTaskRepository.insert(new Task("tamrin 4" , "desc1","1394/5/14","23:14",DONE));
+        mTaskRepository.insert(new Task("tamrin 5" , "desc1","1394/5/14","23:14",DONE));
+        mTaskRepository.insert(new Task("tamrin 6" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 7" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 8" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 1" , "desc1","1394/5/14","23:14",TODO));
+        mTaskRepository.insert(new Task("tamrin 2" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 3" , "desc1","1394/5/14","23:14",DONE));
+        mTaskRepository.insert(new Task("tamrin 4" , "desc1","1394/5/14","23:14",DONE));
+        mTaskRepository.insert(new Task("tamrin 5" , "desc1","1394/5/14","23:14",DONE));
+        mTaskRepository.insert(new Task("tamrin 6" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 7" , "desc1","1394/5/14","23:14",DOING));
+        mTaskRepository.insert(new Task("tamrin 8" , "desc1","1394/5/14","23:14",DOING));*/
         //TODO : delete above
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new TaskAdapter(tasks));
+        mRecyclerView.setAdapter(new TaskAdapter(mTaskRepository.getTasks()));
     }
     private class TaskHolder extends RecyclerView.ViewHolder {
         private TextView mTextView_title,mTextView_time;

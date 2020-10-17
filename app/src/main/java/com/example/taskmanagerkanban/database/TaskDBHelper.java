@@ -18,6 +18,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         sb.append(TaskCols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT , ");
         sb.append(TaskCols.TITLE + " TEXT , ");
         sb.append(TaskCols.DESCRIPTION + " TEXT , ");
+        sb.append(TaskCols.TASKSTATE + " TEXT , ");
         sb.append(TaskCols.DATE + " TEXT ,");
         sb.append(TaskCols.CLOCK + " TEXT ");
         sb.append(");");
