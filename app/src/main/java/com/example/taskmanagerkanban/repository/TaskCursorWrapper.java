@@ -14,7 +14,7 @@ public class TaskCursorWrapper extends CursorWrapper {
     public Task getTask(){
         String title=getString(getColumnIndex(TaskCols.TITLE));
         String desc=getString(getColumnIndex(TaskCols.DESCRIPTION));
-        //String taskStatestring=getString(getColumnIndex(TaskCols.TASKSTATE));
+        String taskStatestring=getString(getColumnIndex(TaskCols.TASKSTATE));
         String date=getString(getColumnIndex(TaskCols.DATE));
         String clock=getString(getColumnIndex(TaskCols.CLOCK));
 
@@ -24,6 +24,6 @@ public class TaskCursorWrapper extends CursorWrapper {
             taskState=TaskState.DOING;
         else
             taskState=TaskState.DONE;*/
-        return new Task(title,desc,date,clock,TaskState.DONE);
+        return new Task(title,desc,date,clock,taskStatestring);
     }
 }

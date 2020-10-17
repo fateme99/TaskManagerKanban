@@ -16,5 +16,12 @@ public  class DatabaseSchema {
             public static final String CLOCK="clock";
         }
     }
+    /*public class TaskState{
+        public static final String NAME="taskState";
+        public class TaskStateCols{
+            public static final String ID="id";
+            public static final String NAME="name";
+        }
+    }*/
 
 }

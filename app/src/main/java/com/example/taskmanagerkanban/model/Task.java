@@ -5,9 +5,10 @@ public class Task {
     private String mDescription;
     private String mDate;
     private String mClock;
-    private TaskState mTaskState;
+    private String mTaskState;
+    //private TaskState mTaskState;
 
-    public Task(String title, String description, String date, String clock, TaskState taskState) {
+    public Task(String title, String description, String date, String clock, String taskState) {
         mTitle = title;
         mDescription = description;
         mDate = date;
@@ -15,11 +16,11 @@ public class Task {
         mTaskState = taskState;
     }
 
-    public TaskState getTaskState() {
+    public String getTaskState() {
         return mTaskState;
     }
 
-    public void setTaskState(TaskState taskState) {
+    public void setTaskState(String taskState) {
         mTaskState = taskState;
     }
 
