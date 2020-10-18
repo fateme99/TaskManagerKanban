@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.taskmanagerkanban.database.DatabaseSchema.TaskTable.TaskCols;
+import com.example.taskmanagerkanban.model.Task;
+import com.example.taskmanagerkanban.repository.TaskRepository;
 
 import androidx.annotation.Nullable;
 
@@ -24,6 +26,8 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         sbTask.append(TaskCols.CLOCK + " TEXT ");
         sbTask.append(");");
         sqLiteDatabase.execSQL(sbTask.toString());
+
+
 
         /*StringBuilder sbTaskState=new StringBuilder();
         sbTaskState.append("CREATE TABLE "+ DatabaseSchema.TaskState.NAME+ " ( ");

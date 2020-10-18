@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void initView(){
-        TaskAdapter taskAdapter=new TaskAdapter(this,TaskState.TODO);
+
+        TaskAdapter taskAdapter=new TaskAdapter(this);
         mPager2.setAdapter(taskAdapter);
         manageTab();
 
@@ -49,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class TaskAdapter extends FragmentStateAdapter{
-        TaskState mTaskState;
 
-        public TaskAdapter(@NonNull FragmentActivity fragmentActivity , TaskState taskState) {
+
+        public TaskAdapter(@NonNull FragmentActivity fragmentActivity ) {
             super(fragmentActivity);
-            mTaskState=taskState;
+
         }
 
 
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment createFragment(int position) {
 
-            return MainFragment.newInstance(mTaskState);
+            return MainFragment.newInstance(position);
         }
 
         @Override
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case 2:
                                 tab.setText("DONE");
+
 
                         }
                     }
