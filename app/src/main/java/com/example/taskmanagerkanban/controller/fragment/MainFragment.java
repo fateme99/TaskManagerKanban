@@ -64,25 +64,28 @@ public class MainFragment extends Fragment {
     private void initView(){
         //TODO : get tasks
 
-        /*mTaskRepository.insert(new Task("tamrin 1" , "desc1","1394/5/14","23:14",TODO));
-        mTaskRepository.insert(new Task("tamrin 2" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 3" , "desc1","1394/5/14","23:14",DONE));
-        mTaskRepository.insert(new Task("tamrin 4" , "desc1","1394/5/14","23:14",DONE));
-        mTaskRepository.insert(new Task("tamrin 5" , "desc1","1394/5/14","23:14",DONE));
-        mTaskRepository.insert(new Task("tamrin 6" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 7" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 8" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 1" , "desc1","1394/5/14","23:14",TODO));
-        mTaskRepository.insert(new Task("tamrin 2" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 3" , "desc1","1394/5/14","23:14",DONE));
-        mTaskRepository.insert(new Task("tamrin 4" , "desc1","1394/5/14","23:14",DONE));
-        mTaskRepository.insert(new Task("tamrin 5" , "desc1","1394/5/14","23:14",DONE));
-        mTaskRepository.insert(new Task("tamrin 6" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 7" , "desc1","1394/5/14","23:14",DOING));
-        mTaskRepository.insert(new Task("tamrin 8" , "desc1","1394/5/14","23:14",DOING));*/
+        /*mTaskRepository.insert(new Task("soale1","nothing","1376/12/2" ,"23:.1","DONE"));
+        mTaskRepository.insert(new Task("soale1","nothing","1376/12/2" ,"23:.1","DONE"));
+        mTaskRepository.insert(new Task("soale1","nothing","1376/12/2" ,"23:.1","DONE"));
+        mTaskRepository.insert(new Task("tamrin 1" , "desc1","1394/5/14","23:14","TODO"));
+        mTaskRepository.insert(new Task("tamrin 2" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 3" , "desc1","1394/5/14","23:14","DONE"));
+        mTaskRepository.insert(new Task("tamrin 4" , "desc1","1394/5/14","23:14","DONE"));
+        mTaskRepository.insert(new Task("tamrin 5" , "desc1","1394/5/14","23:14","DONE"));
+        mTaskRepository.insert(new Task("tamrin 6" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 7" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 8" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 1" , "desc1","1394/5/14","23:14","TODO"));
+        mTaskRepository.insert(new Task("tamrin 2" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 3" , "desc1","1394/5/14","23:14","DONE"));
+        mTaskRepository.insert(new Task("tamrin 4" , "desc1","1394/5/14","23:14","DONE"));
+        mTaskRepository.insert(new Task("tamrin 5" , "desc1","1394/5/14","23:14","DONE"));
+        mTaskRepository.insert(new Task("tamrin 6" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 7" , "desc1","1394/5/14","23:14","DOING"));
+        mTaskRepository.insert(new Task("tamrin 8" , "desc1","1394/5/14","23:14","DOING"));*/
         //TODO : delete above
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new TaskAdapter(mTaskRepository.getTasks()));
+        mRecyclerView.setAdapter(new TaskAdapter(mTaskRepository.getTasks("TODO")));
     }
     private class TaskHolder extends RecyclerView.ViewHolder {
         private TextView mTextView_title,mTextView_time;
