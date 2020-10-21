@@ -10,17 +10,23 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.controller.fragment.MainFragment;
 import com.example.taskmanagerkanban.model.TaskState;
 
+import com.example.taskmanagerkanban.repository.TaskRepository;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager2 mPager2;
+    private FloatingActionButton mButton_plus;
+    private TaskRepository mTaskRepository;
 
     public Intent newIntent(Context context){
         return new Intent(context,MainActivity.class);
@@ -30,13 +36,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTaskRepository=TaskRepository.getInstance(this);
         findViews();
+        setListeners();
         initView();
     }
     private void findViews(){
         mTabLayout =findViewById(R.id.tab);
         mPager2=findViewById(R.id.viewPager);
+        mButton_plus=findViewById(R.id.plus_btn);
 
+    }
+    private void setListeners(){
+        mButton_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
     private void initView(){
 
