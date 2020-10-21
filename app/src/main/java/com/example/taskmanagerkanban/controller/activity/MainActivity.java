@@ -14,22 +14,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.controller.fragment.MainFragment;
+import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.model.TaskState;
 
 import com.example.taskmanagerkanban.repository.TaskRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager2 mPager2;
     private FloatingActionButton mButton_plus;
     private TaskRepository mTaskRepository;
+    private TextInputEditText mTitle,mDesc;
+    private Button mDate,mClock;
+    private CheckBox mCheckBox;
 
     public Intent newIntent(Context context){
         return new Intent(context,MainActivity.class);
@@ -60,7 +67,18 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO save
+                        mTitle=customDialog.findViewById(R.id.title_dialog);
+                        mDesc=customDialog.findViewById(R.id.desc_dialog);
+                        mDate=customDialog.findViewById(R.id.date_dialog);
+                        mClock=customDialog.findViewById(R.id.clock_dialog);
+                        mCheckBox=customDialog.findViewById(R.id.checkbox_dialog);
+                        Task task=getDialogViews();
+                        if (task!=null){
+                            mTaskRepository.insert(task);
+                        }
+
+
+
                     }
                 });
                 builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -81,6 +99,19 @@ public class MainActivity extends AppCompatActivity {
         manageTab();
 
 
+    }
+
+    private Task getDialogViews(){
+        if (mTitle.getText().toString().isEmpty() || mDesc.getText().toString().isEmpty()
+            /*||mDate.getText().toString().isEmpty() || mClock.getText().toString().isEmpty()*/){
+            Toast.makeText(this, "please fill the inputs", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        else {
+            Task task=new Task(mTitle.getText().toString(),mDesc.getText().toString(),mDate.getText().toString(),
+                    mClock.getText().toString(),mCheckBox.isChecked() ? "DONE" : "TODO");
+            return task;
+        }
     }
 
 

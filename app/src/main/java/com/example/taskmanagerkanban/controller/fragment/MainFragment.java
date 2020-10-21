@@ -63,6 +63,13 @@ public class MainFragment extends Fragment {
         initView();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateAdapter();
+    }
+
     private void findViews(View view){
         mRecyclerView=view.findViewById(R.id.recyclerView);
         mFrameLayout_recycler=view.findViewById(R.id.recyclerLayout);

@@ -11,6 +11,7 @@
         android:hint="@string/title_txt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/title_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -23,26 +24,30 @@
         android:hint="@string/description_txt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/desc_dialog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
             />
     </com.google.android.material.textfield.TextInputLayout>
     <Button
+        android:id="@+id/date_dialog"
         android:hint="Sep 06,2019"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
-        android:background="@color/red_700"
+        android:backgroundTint="@color/red_700"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
+        android:id="@+id/clock_dialog"
         android:hint="1:09 PM"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
-        android:background="@color/red_700"
+        android:backgroundTint="@color/red_700"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkbox_dialog"
         android:text="@string/done_txt"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
