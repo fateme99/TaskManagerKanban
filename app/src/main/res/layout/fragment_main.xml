@@ -4,24 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     >
-    <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/recyclerView"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".controller.fragment.MainFragment">
-    </androidx.recyclerview.widget.RecyclerView>
     <FrameLayout
+        android:id="@+id/recyclerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".controller.fragment.MainFragment">
+        </androidx.recyclerview.widget.RecyclerView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="gone"
         android:id="@+id/empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/empty_box"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_emptybox"
+            android:layout_gravity="center"/>
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:text="@string/empty_box"
+            android:textSize="24sp"
+            />
     </FrameLayout>
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import static com.example.taskmanagerkanban.model.TaskState.TODO;
 
 public class MainFragment extends Fragment {
     private static final String ARG_KEY_TASKSTATE="com.example.taskmanagerkanban.taskState";
+    private FrameLayout mFrameLayout_recycler,mFrameLayout_empty;
     private RecyclerView mRecyclerView;
     private TaskRepository mTaskRepository;
     private int mPosition;
@@ -49,6 +51,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPosition=getArguments().getInt(ARG_KEY_TASKSTATE);
         mTaskRepository=TaskRepository.getInstance(getContext());
+
     }
 
     @Override
@@ -62,6 +65,8 @@ public class MainFragment extends Fragment {
     }
     private void findViews(View view){
         mRecyclerView=view.findViewById(R.id.recyclerView);
+        mFrameLayout_recycler=view.findViewById(R.id.recyclerLayout);
+        mFrameLayout_empty=view.findViewById(R.id.empty_layout);
     }
     private void initView(){
 
@@ -143,6 +148,15 @@ public class MainFragment extends Fragment {
             default:
                 state="TODO";
         }
-        mRecyclerView.setAdapter(new TaskAdapter(mTaskRepository.getTasks(state)));
+        List<Task>tasks=mTaskRepository.getTasks(state);
+        if (tasks.size()==0){
+            mFrameLayout_empty.setVisibility(View.VISIBLE);
+            mFrameLayout_recycler.setVisibility(View.GONE);
+        }
+        else {
+            mFrameLayout_empty.setVisibility(View.GONE);
+            mFrameLayout_recycler.setVisibility(View.VISIBLE);
+            mRecyclerView.setAdapter(new TaskAdapter(tasks));
+        }
     }
 }
