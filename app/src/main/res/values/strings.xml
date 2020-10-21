@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_box">You dont have any task...</string>
+    <string name="title_txt">title</string>
+    <string name="description_txt">Description</string>
+    <string name="done_txt">Done</string>
 </resources>

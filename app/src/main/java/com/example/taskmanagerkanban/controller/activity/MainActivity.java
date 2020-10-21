@@ -1,6 +1,7 @@
 package com.example.taskmanagerkanban.controller.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -8,8 +9,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -51,7 +54,23 @@ public class MainActivity extends AppCompatActivity {
         mButton_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                final View customDialog= LayoutInflater.from(MainActivity.this).inflate(R.layout.add_task,null);
+                builder.setView(customDialog);
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //TODO save
+                    }
+                });
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //TODO close
+                    }
+                });
+                AlertDialog dialog=builder.create();
+                dialog.show();
             }
         });
     }
