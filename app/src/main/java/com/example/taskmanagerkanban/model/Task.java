@@ -13,6 +13,13 @@ public class Task implements Serializable {
     private String mTaskState;
     //private TaskState mTaskState;
 
+
+    public Task(UUID id, String title, String description, Date date, String clock, String taskState) {
+        this(title,description,date,clock,taskState);
+        mId = id;
+
+    }
+
     public Task(String title, String description, Date date, String clock, String taskState) {
         mTitle = title;
         mDescription = description;

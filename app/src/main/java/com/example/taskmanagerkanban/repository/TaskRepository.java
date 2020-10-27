@@ -90,8 +90,18 @@ public class TaskRepository {
             taskCursorWrapper.close();;
         }
     }
+    public void updateTask(Task task) {
+        String whereClause = TaskCols.UUID + " =? ";
+        String[] whereArgs = new String[]{task.getId().toString()};
+        mDatabase.update(DatabaseSchema.TaskTable.NAME, getContentValues(task), whereClause, whereArgs);
+    }
 
 
+    public void deleteTask(UUID uuid){
+        String whereClause=TaskCols.UUID+" =? ";
+        String[] whereArgs=new String[]{uuid.toString()};
+        mDatabase.delete(DatabaseSchema.TaskTable.NAME,whereClause,whereArgs);
+    }
     public void insert (Task task){
         ContentValues values = getContentValues(task);
 
@@ -102,6 +112,7 @@ public class TaskRepository {
     @NotNull
     private ContentValues getContentValues(Task task) {
         ContentValues values=new ContentValues();
+        values.put(TaskCols.UUID,task.getId().toString());
         values.put(TaskCols.TITLE,task.getTitle());
         values.put(TaskCols.DESCRIPTION,task.getDescription());
         values.put(TaskCols.TASKSTATE,task.getTaskState());

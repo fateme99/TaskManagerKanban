@@ -9,11 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -134,20 +132,37 @@ public class DetailTaskFragment extends DialogFragment {
                 getDialog().dismiss();
             }
         });
+        mTextView_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDialogView();
+                mTaskRepository.updateTask(mTask);
+                Toast.makeText(getActivity(), "edited successfully", Toast.LENGTH_SHORT).show();
+                getDialog().dismiss();
+
+            }
+        });
+        mTextView_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTaskRepository.deleteTask(mTask.getId());
+                getDialog().dismiss();
+            }
+        });
     }
     private void getDialogView(){
         mTask.setTitle(mEditText_title.getText().toString());
         mTask.setDescription(mEditText_desc.getText().toString());
-        getTaslState();
+        getTaskState();
         // TODO: 10/28/2020 set clock
     }
-    private void getTaslState(){
+    private void getTaskState(){
         if (mRadioButton_todo.isChecked())
             mTask.setTaskState("TODO");
         else if (mRadioButton_doing.isChecked())
             mTask.setTaskState("DOING");
         else 
-            mTask.setTaskState("DOONE");
+            mTask.setTaskState("DONE");
     }
     private String getStringForDate() {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd , yyyy");

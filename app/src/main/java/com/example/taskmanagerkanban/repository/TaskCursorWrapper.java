@@ -8,12 +8,14 @@ import com.example.taskmanagerkanban.database.DatabaseSchema.TaskTable.TaskCols;
 import com.example.taskmanagerkanban.model.TaskState;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class TaskCursorWrapper extends CursorWrapper {
     public TaskCursorWrapper(Cursor cursor) {
         super(cursor);
     }
     public Task getTask(){
+        UUID uuid=UUID.fromString(getString(getColumnIndex(TaskCols.UUID)));
         String title=getString(getColumnIndex(TaskCols.TITLE));
         String desc=getString(getColumnIndex(TaskCols.DESCRIPTION));
         String taskStatestring=getString(getColumnIndex(TaskCols.TASKSTATE));
@@ -26,6 +28,6 @@ public class TaskCursorWrapper extends CursorWrapper {
             taskState=TaskState.DOING;
         else
             taskState=TaskState.DONE;*/
-        return new Task(title,desc,date,clock,taskStatestring);
+        return new Task(uuid,title,desc,date,clock,taskStatestring);
     }
 }
