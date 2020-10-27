@@ -7,6 +7,8 @@ import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.database.DatabaseSchema.TaskTable.TaskCols;
 import com.example.taskmanagerkanban.model.TaskState;
 
+import java.util.Date;
+
 public class TaskCursorWrapper extends CursorWrapper {
     public TaskCursorWrapper(Cursor cursor) {
         super(cursor);
@@ -15,7 +17,7 @@ public class TaskCursorWrapper extends CursorWrapper {
         String title=getString(getColumnIndex(TaskCols.TITLE));
         String desc=getString(getColumnIndex(TaskCols.DESCRIPTION));
         String taskStatestring=getString(getColumnIndex(TaskCols.TASKSTATE));
-        String date=getString(getColumnIndex(TaskCols.DATE));
+        Date date=new Date(getLong(getColumnIndex(TaskCols.DATE)));
         String clock=getString(getColumnIndex(TaskCols.CLOCK));
 
         /*if (taskStatestring.equalsIgnoreCase("TO DO"))

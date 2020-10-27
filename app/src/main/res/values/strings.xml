@@ -6,4 +6,8 @@
     <string name="title_txt">title</string>
     <string name="description_txt">Description</string>
     <string name="done_txt">Done</string>
+    <string name="todo">todo</string>
+    <string name="doing">doing</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
 </resources>

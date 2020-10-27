@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +17,29 @@ import android.widget.TextView;
 
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.model.Task;
-import com.example.taskmanagerkanban.model.TaskState;
 import com.example.taskmanagerkanban.repository.TaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.taskmanagerkanban.model.TaskState.DOING;
-import static com.example.taskmanagerkanban.model.TaskState.DONE;
-import static com.example.taskmanagerkanban.model.TaskState.TODO;
+import static android.content.ContentValues.TAG;
 
 
-public class MainFragment extends Fragment {
+public class TaskListFragment extends Fragment {
     private static final String ARG_KEY_TASKSTATE="com.example.taskmanagerkanban.taskState";
     private FrameLayout mFrameLayout_recycler,mFrameLayout_empty;
     private RecyclerView mRecyclerView;
     private TaskRepository mTaskRepository;
     private int mPosition;
-    public MainFragment() {
+    private TaskAdapter mAdapter;
+    public TaskListFragment() {
         // Required empty public constructor
     }
 
-    public static MainFragment newInstance(int  position) {
+    public static TaskListFragment newInstance(int  position) {
 
         Bundle args = new Bundle();
-        MainFragment fragment = new MainFragment();
+        TaskListFragment fragment = new TaskListFragment();
         args.putInt(ARG_KEY_TASKSTATE,position);
         fragment.setArguments(args);
         return fragment;
@@ -65,9 +64,17 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: call in on pause ");
+        
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         updateAdapter();
+        Log.d(TAG, "onResume: ");
     }
 
     private void findViews(View view){
@@ -93,7 +100,9 @@ public class MainFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO : show details
+
+
+
                 }
             });
 
@@ -101,7 +110,7 @@ public class MainFragment extends Fragment {
         public void bindTask(Task task){
             mTask=task;
             mTextView_title.setText(task.getTitle());
-            mTextView_time.setText(task.getDate());
+            mTextView_time.setText(task.getDate().toString());
 
         }
 
@@ -163,7 +172,11 @@ public class MainFragment extends Fragment {
         else {
             mFrameLayout_empty.setVisibility(View.GONE);
             mFrameLayout_recycler.setVisibility(View.VISIBLE);
-            mRecyclerView.setAdapter(new TaskAdapter(tasks));
+            if(mAdapter==null){
+                mAdapter=new TaskAdapter(tasks);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

@@ -1,14 +1,16 @@
 package com.example.taskmanagerkanban.model;
 
+import java.util.Date;
+
 public class Task {
     private String mTitle;
     private String mDescription;
-    private String mDate;
+    private Date mDate;
     private String mClock;
     private String mTaskState;
     //private TaskState mTaskState;
 
-    public Task(String title, String description, String date, String clock, String taskState) {
+    public Task(String title, String description, Date date, String clock, String taskState) {
         mTitle = title;
         mDescription = description;
         mDate = date;
@@ -40,11 +42,11 @@ public class Task {
         mDescription = description;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return mDate;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         mDate = date;
     }
 

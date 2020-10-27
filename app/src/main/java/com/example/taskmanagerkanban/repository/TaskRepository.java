@@ -91,7 +91,8 @@ public class TaskRepository {
         values.put(TaskCols.TITLE,task.getTitle());
         values.put(TaskCols.DESCRIPTION,task.getDescription());
         values.put(TaskCols.TASKSTATE,task.getTaskState());
-        values.put(TaskCols.DATE,task.getDate());
+        //TODO : edit date
+//        values.put(TaskCols.DATE,task.getDate().toString());
         values.put(TaskCols.CLOCK,task.getClock());
         return values;
     }
