@@ -1,8 +1,11 @@
 package com.example.taskmanagerkanban.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
-public class Task {
+public class Task implements Serializable {
+    private UUID mId;
     private String mTitle;
     private String mDescription;
     private Date mDate;
@@ -16,6 +19,15 @@ public class Task {
         mDate = date;
         mClock = clock;
         mTaskState = taskState;
+        mId=UUID.randomUUID();
+    }
+
+    public Task() {
+        mId=UUID.randomUUID();
+    }
+
+    public UUID getId() {
+        return mId;
     }
 
     public String getTaskState() {

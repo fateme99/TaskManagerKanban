@@ -40,6 +40,7 @@ public class AddTaskFragment extends DialogFragment {
     private TextView mTextView_save,mTextView_cancel;
     private RadioButton mRadio_todo,mRadio_doing,mRadio_done;
     private TaskRepository mTaskRepository;
+    private Task mTask;
     public AddTaskFragment() {
         // Required empty public constructor
     }
@@ -60,7 +61,9 @@ public class AddTaskFragment extends DialogFragment {
         if (requestCode==REQUEST_CODE_DATE_PICKER  ){
             Date user_selected_date= (Date) data.getSerializableExtra(
                     DatePickerFragment.EXTRA_USER_SELECTED_DATE);
-            updateTask(user_selected_date);
+
+            mTask.setDate(user_selected_date);
+            updateTask();
 
         }
     }
@@ -69,7 +72,7 @@ public class AddTaskFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTaskRepository=TaskRepository.getInstance(getActivity());
-
+        mTask=new Task();
     }
 
 
@@ -77,7 +80,7 @@ public class AddTaskFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         LayoutInflater inflater=LayoutInflater.from(getActivity());
-        View view=inflater.inflate(R.layout.fragment_add_task,null);
+        View view=inflater.inflate(R.layout.fragment_dialog_add_task,null);
         findViews(view);
         setListeners();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
@@ -111,9 +114,9 @@ public class AddTaskFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: save btn pressed");
-                Task task=getDialogViews();
-                if (task!=null){
-                    mTaskRepository.insert(task);
+                getDialogViews();
+                if (mTask!=null){
+                    mTaskRepository.insert(mTask);
                     Toast.makeText(getActivity(), "add task successfully", Toast.LENGTH_SHORT).show();
                     getDialog().dismiss();
                 }
@@ -126,35 +129,35 @@ public class AddTaskFragment extends DialogFragment {
             }
         });
     }
-    private Task getDialogViews(){
+    private void getDialogViews(){
+        getStatusOfTask();
         if (mTitle.getText().toString().isEmpty() || mDesc.getText().toString().isEmpty()
             /*||mDate.getText().toString().isEmpty() || mClock.getText().toString().isEmpty()*/){
             Toast.makeText(getActivity(), "please fill the inputs", Toast.LENGTH_SHORT).show();
-            return null;
+
         }
         else {
-            String status = getStatusOfTask();
-            //TODO : edit date
-            Task task=new Task(mTitle.getText().toString(),mDesc.getText().toString(),null,
-                    mClock_btn.getText().toString(),status);
-            return task;
+
+            mTask.setTitle(mTitle.getText().toString());
+            mTask.setDescription(mDesc.getText().toString());
+
         }
     }
 
     @NotNull
-    private String getStatusOfTask() {
-        String status;
+    private void getStatusOfTask() {
         if (mRadio_todo.isChecked())
-            status="TODO";
+            mTask.setTaskState("TODO");
         else if (mRadio_doing.isChecked())
-            status="DOING";
+            mTask.setTaskState("DOING");
         else
-            status="DONE";
-        return status;
+            mTask.setTaskState("DONE");
+
     }
-    private void updateTask(Date date){
+    private void updateTask(){
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd,yyyy");
-        String dateString=simpleDateFormat.format(date);
+        String dateString=simpleDateFormat.format(mTask.getDate());
         mDate_btn.setText(dateString);
+
     }
 }

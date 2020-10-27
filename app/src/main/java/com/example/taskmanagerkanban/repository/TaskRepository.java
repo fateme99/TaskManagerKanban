@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -76,6 +77,19 @@ public class TaskRepository {
         }
         return tasks;
     }
+    public Task getTask(UUID uuid){
+        String selection=TaskCols.UUID+" =? ";
+        String[] selectionArgs=new String[]{uuid.toString()};
+        TaskCursorWrapper taskCursorWrapper=getTaskCursorWrapper(selection,selectionArgs);
+        if (taskCursorWrapper==null     ||  taskCursorWrapper.getCount()==0)
+            return null;
+        try {
+            taskCursorWrapper.moveToFirst();
+            return taskCursorWrapper.getTask();
+        }finally {
+            taskCursorWrapper.close();;
+        }
+    }
 
 
     public void insert (Task task){
@@ -91,8 +105,7 @@ public class TaskRepository {
         values.put(TaskCols.TITLE,task.getTitle());
         values.put(TaskCols.DESCRIPTION,task.getDescription());
         values.put(TaskCols.TASKSTATE,task.getTaskState());
-        //TODO : edit date
-//        values.put(TaskCols.DATE,task.getDate().toString());
+        values.put(TaskCols.DATE,task.getDate().getTime());
         values.put(TaskCols.CLOCK,task.getClock());
         return values;
     }

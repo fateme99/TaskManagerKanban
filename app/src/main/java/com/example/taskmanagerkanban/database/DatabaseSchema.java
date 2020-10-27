@@ -1,6 +1,7 @@
 package com.example.taskmanagerkanban.database;
 
 import java.util.Date;
+import java.util.UUID;
 
 public  class DatabaseSchema {
     public static final String NAME="taskmanager.db";
@@ -8,7 +9,7 @@ public  class DatabaseSchema {
     public class TaskTable{
         public static final String NAME="taskTable";
         public class TaskCols{
-            public static final String ID="id";
+            public static final String UUID="id";
             public static final String TITLE="title";
             public static final String DESCRIPTION="description";
             public static final String TASKSTATE="taskState";

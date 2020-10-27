@@ -19,6 +19,7 @@ import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.repository.TaskRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import static android.content.ContentValues.TAG;
 
 public class TaskListFragment extends Fragment {
     private static final String ARG_KEY_TASKSTATE="com.example.taskmanagerkanban.taskState";
+    private static final String TAG_FRAGMENT_DETAIL ="detailTask" ;
     private FrameLayout mFrameLayout_recycler,mFrameLayout_empty;
     private RecyclerView mRecyclerView;
     private TaskRepository mTaskRepository;
@@ -100,7 +102,8 @@ public class TaskListFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                DetailTaskFragment fragment=DetailTaskFragment.newInstance(mTask);
+                fragment.show(getActivity().getSupportFragmentManager(),TAG_FRAGMENT_DETAIL);
 
 
                 }
@@ -110,7 +113,10 @@ public class TaskListFragment extends Fragment {
         public void bindTask(Task task){
             mTask=task;
             mTextView_title.setText(task.getTitle());
-            mTextView_time.setText(task.getDate().toString());
+            SimpleDateFormat format=new SimpleDateFormat("MMM dd , yyyy");
+            String dateString=format.format(task.getDate());
+            // TODO: 10/27/2020 set time in holder
+            mTextView_time.setText(dateString);
 
         }
 
