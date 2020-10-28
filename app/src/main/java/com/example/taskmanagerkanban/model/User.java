@@ -1,12 +1,20 @@
 package com.example.taskmanagerkanban.model;
 
+import java.util.UUID;
+
 public class User {
+    private UUID mUUID;
     private String mUserName;
     private String mPassWord;
 
     public User(String userName, String passWord) {
         mUserName = userName;
         mPassWord = passWord;
+        mUUID=UUID.randomUUID();
+    }
+
+    public UUID getUUID() {
+        return mUUID;
     }
 
     public String getUserName() {

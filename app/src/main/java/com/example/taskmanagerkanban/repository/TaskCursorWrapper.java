@@ -20,7 +20,7 @@ public class TaskCursorWrapper extends CursorWrapper {
         String desc=getString(getColumnIndex(TaskCols.DESCRIPTION));
         String taskStatestring=getString(getColumnIndex(TaskCols.TASKSTATE));
         Date date=new Date(getLong(getColumnIndex(TaskCols.DATE)));
-        String clock=getString(getColumnIndex(TaskCols.CLOCK));
+
 
         /*if (taskStatestring.equalsIgnoreCase("TO DO"))
             TaskState taskState=TaskState.TODO;
@@ -28,6 +28,6 @@ public class TaskCursorWrapper extends CursorWrapper {
             taskState=TaskState.DOING;
         else
             taskState=TaskState.DONE;*/
-        return new Task(uuid,title,desc,date,clock,taskStatestring);
+        return new Task(uuid,title,desc,date,taskStatestring);
     }
 }

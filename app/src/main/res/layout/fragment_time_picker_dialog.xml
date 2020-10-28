@@ -4,16 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <DatePicker
-        android:id="@+id/date_picker"
-
+    android:layout_height="match_parent"
+    tools:context=".controller.fragment.TimePickerDialogFragment">
+    <TimePicker
+        android:id="@+id/time_picker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".controller.fragment.DatePickerFragment">
-
-    </DatePicker>
+        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
@@ -24,7 +20,7 @@
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:gravity="center"
-            android:id="@+id/cancel_date_btn"
+            android:id="@+id/cancel_time_btn"
             android:layout_weight="1"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -34,7 +30,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:id="@+id/save_date_btn"
+            android:id="@+id/save_time_btn"
             android:layout_weight="1"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -46,4 +42,6 @@
 
 
     </LinearLayout>
+
+
 </LinearLayout>

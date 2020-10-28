@@ -34,7 +34,10 @@ import static android.content.ContentValues.TAG;
 public class AddTaskFragment extends DialogFragment {
 
     private static final String FRAGMENT_TAG_DATEPICKER ="Datepicker" ;
+    private static final String FRAGMENT_TAG_TIME_PICKER ="TimePicker" ;
     private static final int REQUEST_CODE_DATE_PICKER =0 ;
+    private static final int REQUEST_CODE_TIME_PICKER = 1;
+
     private TextInputEditText mTitle,mDesc;
     private Button mDate_btn, mClock_btn;
     private TextView mTextView_save,mTextView_cancel;
@@ -63,8 +66,13 @@ public class AddTaskFragment extends DialogFragment {
                     DatePickerFragment.EXTRA_USER_SELECTED_DATE);
 
             mTask.setDate(user_selected_date);
-            updateTask();
-
+            updateDateButton();
+        }
+        else if (requestCode==REQUEST_CODE_TIME_PICKER){
+            Date user_selected_date= (Date) data.getSerializableExtra
+                    (TimePickerDialogFragment.EXTRA_TIME_PICKER_DATE);
+            mTask.setDate(user_selected_date);
+            updateTimeButton();
         }
     }
 
@@ -104,9 +112,17 @@ public class AddTaskFragment extends DialogFragment {
         mDate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerFragment datePickerFragment=DatePickerFragment.newInstance(null);
+                DatePickerFragment datePickerFragment=DatePickerFragment.newInstance(mTask.getDate());
                 datePickerFragment.setTargetFragment(AddTaskFragment.this,REQUEST_CODE_DATE_PICKER);
                 datePickerFragment.show(getActivity().getSupportFragmentManager(),FRAGMENT_TAG_DATEPICKER);
+            }
+        });
+        mClock_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialogFragment fragment=TimePickerDialogFragment.newInstance(mTask.getDate());
+                fragment.setTargetFragment(AddTaskFragment.this,REQUEST_CODE_TIME_PICKER);
+                fragment.show(getActivity().getSupportFragmentManager(),FRAGMENT_TAG_TIME_PICKER);
             }
         });
 
@@ -114,10 +130,11 @@ public class AddTaskFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: save btn pressed");
-                getDialogViews();
-                if (mTask!=null){
+
+                if (mTask!=null     &&  getDialogViews()){
                     mTaskRepository.insert(mTask);
-                    Toast.makeText(getActivity(), "add task successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "add task successfully", Toast.LENGTH_SHORT)
+                            .show();
                     getDialog().dismiss();
                 }
             }
@@ -129,18 +146,19 @@ public class AddTaskFragment extends DialogFragment {
             }
         });
     }
-    private void getDialogViews(){
+    private boolean getDialogViews(){
         getStatusOfTask();
         if (mTitle.getText().toString().isEmpty() || mDesc.getText().toString().isEmpty()
-            /*||mDate.getText().toString().isEmpty() || mClock.getText().toString().isEmpty()*/){
+            ||mDate_btn.getText().toString().isEmpty() || mClock_btn.getText().toString().isEmpty()){
             Toast.makeText(getActivity(), "please fill the inputs", Toast.LENGTH_SHORT).show();
+            return false;
 
         }
         else {
 
             mTask.setTitle(mTitle.getText().toString());
             mTask.setDescription(mDesc.getText().toString());
-
+            return true;
         }
     }
 
@@ -154,10 +172,15 @@ public class AddTaskFragment extends DialogFragment {
             mTask.setTaskState("DONE");
 
     }
-    private void updateTask(){
+    private void updateDateButton(){
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd,yyyy");
         String dateString=simpleDateFormat.format(mTask.getDate());
         mDate_btn.setText(dateString);
 
+    }
+    private void updateTimeButton(){
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh : mm a");
+        String time=simpleDateFormat.format(mTask.getDate());
+        mClock_btn.setText(time);
     }
 }

@@ -28,8 +28,11 @@ import java.util.Date;
 
 public class DetailTaskFragment extends DialogFragment {
     private static final String ARGS_TASK = "task";
-    private static final int REQUEST_CODE_DATEPICKER = 0;
-    private static final String FRAGMENT_TAG_DATEPICKER ="datePicker" ;
+    private static final int REQUEST_CODE_DATE_PICKER = 0;
+    private static final int REQUEST_CODE_TIME_PICKER = 1;
+    private static final String FRAGMENT_TAG_DATE_PICKER ="datePicker" ;
+    private static final String FRAGMENT_TAG_TIME_PICKER = "timePicker" ;
+
     private TextView mTextView_save,mTextView_edit,mTextView_delete;
     private RadioButton mRadioButton_todo,mRadioButton_doing,mRadioButton_done;
     private EditText mEditText_title,mEditText_desc;
@@ -53,9 +56,13 @@ public class DetailTaskFragment extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode!= Activity.RESULT_OK     ||  data==null)
             return;
-        if (requestCode==REQUEST_CODE_DATEPICKER){
+        if (requestCode== REQUEST_CODE_DATE_PICKER){
             mTask.setDate((Date) data.getSerializableExtra(DatePickerFragment.EXTRA_USER_SELECTED_DATE));
             mButton_date.setText(getStringForDate());
+        }
+        else if (requestCode==REQUEST_CODE_TIME_PICKER){
+            mTask.setDate((Date) data.getSerializableExtra(TimePickerDialogFragment.EXTRA_TIME_PICKER_DATE));
+            mButton_clock.setText(getStringForClock());
         }
     }
 
@@ -99,9 +106,9 @@ public class DetailTaskFragment extends DialogFragment {
 
         mEditText_title.setText(mTask.getTitle());
         mEditText_desc.setText(mTask.getDescription());
-        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("MMM dd,yyyy");
-        String dateString=simpleDateFormat.format(mTask.getDate());
-        mButton_date.setText(dateString);
+
+        mButton_date.setText(getStringForDate());
+        mButton_clock.setText(getStringForClock());
         switch (mTask.getTaskState()){
             case "TODO":
                 mRadioButton_todo.setChecked(true);
@@ -119,8 +126,16 @@ public class DetailTaskFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 DatePickerFragment fragment=DatePickerFragment.newInstance(mTask.getDate());
-                fragment.setTargetFragment(DetailTaskFragment.this,REQUEST_CODE_DATEPICKER);
-                fragment.show(getActivity().getSupportFragmentManager(),FRAGMENT_TAG_DATEPICKER);
+                fragment.setTargetFragment(DetailTaskFragment.this, REQUEST_CODE_DATE_PICKER);
+                fragment.show(getActivity().getSupportFragmentManager(), FRAGMENT_TAG_DATE_PICKER);
+            }
+        });
+        mButton_clock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialogFragment fragment=TimePickerDialogFragment.newInstance(mTask.getDate());
+                fragment.setTargetFragment(DetailTaskFragment.this, REQUEST_CODE_TIME_PICKER);
+                fragment.show(getActivity().getSupportFragmentManager(),FRAGMENT_TAG_TIME_PICKER);
             }
         });
         mTextView_save.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +181,10 @@ public class DetailTaskFragment extends DialogFragment {
     }
     private String getStringForDate() {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd , yyyy");
+        return simpleDateFormat.format(mTask.getDate());
+    }
+    private String getStringForClock(){
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh : mm a");
         return simpleDateFormat.format(mTask.getDate());
     }
 }

@@ -1,6 +1,7 @@
 package com.example.taskmanagerkanban.model;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,22 +10,21 @@ public class Task implements Serializable {
     private String mTitle;
     private String mDescription;
     private Date mDate;
-    private String mClock;
     private String mTaskState;
     //private TaskState mTaskState;
 
 
-    public Task(UUID id, String title, String description, Date date, String clock, String taskState) {
-        this(title,description,date,clock,taskState);
+    public Task(UUID id, String title, String description, Date date, String taskState) {
+        this(title,description,date,taskState);
         mId = id;
 
     }
 
-    public Task(String title, String description, Date date, String clock, String taskState) {
+    public Task(String title, String description, Date date, String taskState) {
         mTitle = title;
         mDescription = description;
         mDate = date;
-        mClock = clock;
+
         mTaskState = taskState;
         mId=UUID.randomUUID();
     }
@@ -69,11 +69,4 @@ public class Task implements Serializable {
         mDate = date;
     }
 
-    public String getClock() {
-        return mClock;
-    }
-
-    public void setClock(String clock) {
-        mClock = clock;
-    }
 }

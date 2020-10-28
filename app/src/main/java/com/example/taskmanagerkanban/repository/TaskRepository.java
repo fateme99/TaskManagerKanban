@@ -37,9 +37,6 @@ public class TaskRepository {
         return sInstance;
     }
 
-    public static void setInstance(TaskRepository instance) {
-        sInstance = instance;
-    }
 
     public List<Task> getTasks(){
         List<Task>tasks=new ArrayList<>();
@@ -117,7 +114,6 @@ public class TaskRepository {
         values.put(TaskCols.DESCRIPTION,task.getDescription());
         values.put(TaskCols.TASKSTATE,task.getTaskState());
         values.put(TaskCols.DATE,task.getDate().getTime());
-        values.put(TaskCols.CLOCK,task.getClock());
         return values;
     }
 

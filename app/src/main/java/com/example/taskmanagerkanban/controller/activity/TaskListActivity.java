@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class MainActivity extends AppCompatActivity {
+public class TaskListActivity extends AppCompatActivity {
 
     private static final String TAG_ADD_TASK ="addTask" ;
     private TabLayout mTabLayout;
@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public Intent newIntent(Context context){
-        return new Intent(context,MainActivity.class);
+    public static Intent newIntent(Context context){
+        return new Intent(context, TaskListActivity.class);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AddTaskFragment addTaskFragment=AddTaskFragment.newInstance();
-                addTaskFragment.show(MainActivity.this.getSupportFragmentManager(),TAG_ADD_TASK);
+                addTaskFragment.show(TaskListActivity.this.getSupportFragmentManager(),TAG_ADD_TASK);
             }
         });
     }

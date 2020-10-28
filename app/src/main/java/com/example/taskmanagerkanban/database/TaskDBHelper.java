@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.taskmanagerkanban.database.DatabaseSchema.TaskTable.TaskCols;
+import com.example.taskmanagerkanban.database.DatabaseSchema.UserTable.UserCols;
 import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.repository.TaskRepository;
 
@@ -27,6 +28,16 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         sbTask.append(TaskCols.CLOCK + " TEXT ");
         sbTask.append(");");
         sqLiteDatabase.execSQL(sbTask.toString());
+
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("CREATE TABLE " + DatabaseSchema.UserTable.NAME +" ( ");
+        stringBuilder.append(UserCols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT , ");
+        stringBuilder.append(UserCols.UUID+ " INTEGER ,");
+        stringBuilder.append(UserCols.USERNAME +" TEXT ,");
+        stringBuilder.append(UserCols.PASSWORD + " TEXT ");
+        stringBuilder.append(" );");
+        sqLiteDatabase.execSQL(stringBuilder.toString());
 
 
 

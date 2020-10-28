@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="meduim_size">16dp</dimen>
+    <dimen name="meduim_font">24sp</dimen>
+    <dimen name="meduim_s_font">20sp</dimen>
+    <dimen name="small_font">16sp</dimen>
+    <dimen name="small_size">8dp</dimen>
+</resources>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:background="#FFFFFF"
-    tools:context=".controller.activity.MainActivity">
+    tools:context=".controller.activity.TaskListActivity">
 
     <com.google.android.material.tabs.TabLayout
         app:tabIndicatorColor="@color/red_700"
