@@ -20,7 +20,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:hint="@string/description_txt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
