@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             tools:context=".controller.fragment.TaskListFragment">
         </androidx.recyclerview.widget.RecyclerView>
+
     </FrameLayout>
 
     <FrameLayout
@@ -38,6 +39,7 @@
             android:text="@string/empty_box"
             android:textSize="24sp"
             />
+
     </FrameLayout>
 
 

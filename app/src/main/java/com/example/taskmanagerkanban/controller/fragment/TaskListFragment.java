@@ -1,8 +1,10 @@
 package com.example.taskmanagerkanban.controller.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.taskmanagerkanban.R;
+import com.example.taskmanagerkanban.controller.activity.TaskListActivity;
+import com.example.taskmanagerkanban.controller.fragment.DetailTaskFragment.Callbacks;
 import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.repository.TaskRepository;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +31,8 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends Fragment  {
+
     private static final String ARG_KEY_TASKSTATE="com.example.taskmanagerkanban.taskState";
     private static final String TAG_FRAGMENT_DETAIL ="detailTask" ;
     private FrameLayout mFrameLayout_recycler,mFrameLayout_empty;
@@ -47,6 +53,8 @@ public class TaskListFragment extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +70,7 @@ public class TaskListFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_main, container, false);
         findViews(view);
         initView();
+        setListeners();
         return view;
     }
 
@@ -83,26 +92,31 @@ public class TaskListFragment extends Fragment {
         mRecyclerView=view.findViewById(R.id.recyclerView);
         mFrameLayout_recycler=view.findViewById(R.id.recyclerLayout);
         mFrameLayout_empty=view.findViewById(R.id.empty_layout);
+
     }
     private void initView(){
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         updateAdapter();
     }
+    private void setListeners(){
+
+    }
     private class TaskHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView_title,mTextView_time;
-        private ImageView mImageView_pic;
+        private TextView mTextView_title,mTextView_time,mTextView_pic;
+
         private Task mTask;
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             mTextView_title=itemView.findViewById(R.id.titile_item);
             mTextView_time=itemView.findViewById(R.id.time_item);
-            mImageView_pic=itemView.findViewById(R.id.pic_item);
+            mTextView_pic=itemView.findViewById(R.id.pic_item_txt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                 DetailTaskFragment fragment=DetailTaskFragment.newInstance(mTask);
+
                 fragment.show(getActivity().getSupportFragmentManager(),TAG_FRAGMENT_DETAIL);
 
 
@@ -113,15 +127,15 @@ public class TaskListFragment extends Fragment {
         public void bindTask(Task task){
             mTask=task;
             mTextView_title.setText(task.getTitle());
-            SimpleDateFormat format=new SimpleDateFormat("MMM dd , yyyy");
+            SimpleDateFormat format=new SimpleDateFormat("MMM dd , yyyy  hh : mm a");
             String dateString=format.format(task.getDate());
-            // TODO: 10/27/2020 set time in holder
             mTextView_time.setText(dateString);
-
+            mTextView_pic.setText(mTask.getTitle().charAt(0)+"");
         }
 
 
     }
+
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder>{
 
         private List<Task>mTasks=new ArrayList<>();
@@ -158,7 +172,8 @@ public class TaskListFragment extends Fragment {
             return mTasks.size();
         }
     }
-    private void updateAdapter(){
+    public void updateAdapter(){
+        Log.d(TAG, "updateAdapter: yes");
         String state;
         switch (mPosition){
             case 2:
@@ -170,6 +185,7 @@ public class TaskListFragment extends Fragment {
             default:
                 state="TODO";
         }
+        mTaskRepository=TaskRepository.getInstance(getActivity());
         List<Task>tasks=mTaskRepository.getTasks(state);
         if (tasks.size()==0){
             mFrameLayout_empty.setVisibility(View.VISIBLE);
@@ -182,7 +198,11 @@ public class TaskListFragment extends Fragment {
                 mAdapter=new TaskAdapter(tasks);
                 mRecyclerView.setAdapter(mAdapter);
             }
+            mAdapter.setTasks(tasks);
             mAdapter.notifyDataSetChanged();
+
         }
+
     }
+
 }

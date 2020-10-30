@@ -3,6 +3,7 @@ package com.example.taskmanagerkanban.controller.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +34,8 @@ public class DetailTaskFragment extends DialogFragment {
     private static final int REQUEST_CODE_TIME_PICKER = 1;
     private static final String FRAGMENT_TAG_DATE_PICKER ="datePicker" ;
     private static final String FRAGMENT_TAG_TIME_PICKER = "timePicker" ;
-
+    private static final String TAG_CALLBACK = "callback";
+    private Callbacks mCallbacks;
     private TextView mTextView_save,mTextView_edit,mTextView_delete;
     private RadioButton mRadioButton_todo,mRadioButton_doing,mRadioButton_done;
     private EditText mEditText_title,mEditText_desc;
@@ -41,6 +44,16 @@ public class DetailTaskFragment extends DialogFragment {
     private TaskRepository mTaskRepository;
     public DetailTaskFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof Callbacks){
+            mCallbacks= (Callbacks) context;
+            Log.d(TAG_CALLBACK, "onAttach: is instance");
+        }
+
     }
 
     public static DetailTaskFragment newInstance(Task task) {
@@ -142,9 +155,12 @@ public class DetailTaskFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 getDialogView();
-                mTaskRepository.insert(mTask);
-                Toast.makeText(getActivity(), "insert new task successfully.", Toast.LENGTH_SHORT).show();
+                mTaskRepository.insert(new Task(
+                        mTask.getTitle(),mTask.getDescription(),mTask.getDate(),mTask.getTaskState()));
+                Toast.makeText(getActivity(), "insert new task successfully.", Toast.LENGTH_SHORT)
+                        .show();
                 getDialog().dismiss();
+                mCallbacks.updateTaskListAdapter();
             }
         });
         mTextView_edit.setOnClickListener(new View.OnClickListener() {
@@ -154,14 +170,17 @@ public class DetailTaskFragment extends DialogFragment {
                 mTaskRepository.updateTask(mTask);
                 Toast.makeText(getActivity(), "edited successfully", Toast.LENGTH_SHORT).show();
                 getDialog().dismiss();
-
+                mCallbacks.updateTaskListAdapter();
             }
         });
         mTextView_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mTaskRepository.deleteTask(mTask.getId());
+                Toast.makeText(getActivity(), "deleted successfully", Toast.LENGTH_SHORT).show();
                 getDialog().dismiss();
+                mCallbacks.updateTaskListAdapter();
+
             }
         });
     }
@@ -186,5 +205,9 @@ public class DetailTaskFragment extends DialogFragment {
     private String getStringForClock(){
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh : mm a");
         return simpleDateFormat.format(mTask.getDate());
+    }
+
+    public interface Callbacks{
+        void updateTaskListAdapter();
     }
 }

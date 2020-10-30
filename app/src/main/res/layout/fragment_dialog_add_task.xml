@@ -36,7 +36,7 @@
         android:hint="Sep 06,2019"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red_700"
+        android:backgroundTint="@color/light_blue_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
@@ -45,7 +45,7 @@
         android:hint="1:09 PM"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red_700"
+        android:backgroundTint="@color/light_blue_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RadioGroup

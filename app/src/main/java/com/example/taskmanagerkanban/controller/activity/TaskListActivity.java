@@ -10,24 +10,26 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.controller.fragment.AddTaskFragment;
+import com.example.taskmanagerkanban.controller.fragment.DetailTaskFragment;
 import com.example.taskmanagerkanban.controller.fragment.TaskListFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class TaskListActivity extends AppCompatActivity {
-
+public class TaskListActivity extends AppCompatActivity implements DetailTaskFragment.Callbacks {
     private static final String TAG_ADD_TASK ="addTask" ;
     private TabLayout mTabLayout;
     private ViewPager2 mPager2;
+
+    private TaskListFragment mTaskListFragment;
     private FloatingActionButton mButton_plus;
-
-
 
     public static Intent newIntent(Context context){
         return new Intent(context, TaskListActivity.class);
@@ -47,15 +49,17 @@ public class TaskListActivity extends AppCompatActivity {
         mPager2=findViewById(R.id.viewPager);
         mButton_plus=findViewById(R.id.plus_btn);
 
+
     }
     private void setListeners(){
         mButton_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddTaskFragment addTaskFragment=AddTaskFragment.newInstance();
-                addTaskFragment.show(TaskListActivity.this.getSupportFragmentManager(),TAG_ADD_TASK);
+                addTaskFragment.show(getSupportFragmentManager(),TAG_ADD_TASK);
             }
         });
+
     }
     private void initView(){
 
@@ -84,7 +88,8 @@ public class TaskListActivity extends AppCompatActivity {
         @Override
         public Fragment createFragment(int position) {
 
-            return TaskListFragment.newInstance(position);
+            mTaskListFragment=TaskListFragment.newInstance(position);
+            return mTaskListFragment;
         }
 
         @Override
@@ -105,6 +110,7 @@ public class TaskListActivity extends AppCompatActivity {
                         switch (position){
                             case 0:
                                 tab.setText("TO DO");
+
                                 break;
                             case 1:
                                 tab.setText("DOING");
@@ -117,5 +123,10 @@ public class TaskListActivity extends AppCompatActivity {
                     }
                 });
         tabLayoutMediator.attach();
+    }
+
+    @Override
+    public void updateTaskListAdapter() {
+        mTaskListFragment.updateAdapter();
     }
 }

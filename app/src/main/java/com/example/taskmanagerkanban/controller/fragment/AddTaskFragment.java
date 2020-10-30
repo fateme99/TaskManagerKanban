@@ -3,6 +3,7 @@ package com.example.taskmanagerkanban.controller.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -37,7 +38,7 @@ public class AddTaskFragment extends DialogFragment {
     private static final String FRAGMENT_TAG_TIME_PICKER ="TimePicker" ;
     private static final int REQUEST_CODE_DATE_PICKER =0 ;
     private static final int REQUEST_CODE_TIME_PICKER = 1;
-
+    private Callbacks mCallbacks;
     private TextInputEditText mTitle,mDesc;
     private Button mDate_btn, mClock_btn;
     private TextView mTextView_save,mTextView_cancel;
@@ -55,6 +56,13 @@ public class AddTaskFragment extends DialogFragment {
         AddTaskFragment fragment = new AddTaskFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof Callbacks)
+            mCallbacks= (Callbacks) context;
     }
 
     @Override
@@ -182,5 +190,8 @@ public class AddTaskFragment extends DialogFragment {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh : mm a");
         String time=simpleDateFormat.format(mTask.getDate());
         mClock_btn.setText(time);
+    }
+    public interface Callbacks{
+        void updateTaskListAdapter();
     }
 }

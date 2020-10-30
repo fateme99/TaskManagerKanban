@@ -10,7 +10,7 @@
     tools:context=".controller.activity.TaskListActivity">
 
     <com.google.android.material.tabs.TabLayout
-        app:tabIndicatorColor="@color/red_700"
+        app:tabIndicatorColor="@color/light_blue_main"
         android:id="@+id/tab"
         android:layout_width="match_parent"
         app:tabMode="fixed"
@@ -28,12 +28,13 @@
     </androidx.viewpager2.widget.ViewPager2>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plus_btn"
-        android:layout_gravity="right"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
+        android:backgroundTint="@color/light_blue_main"
         android:src="@drawable/ic_plus_icon"
-        android:backgroundTint="@color/red_700"
         app:borderWidth="0dp"
 
         />
