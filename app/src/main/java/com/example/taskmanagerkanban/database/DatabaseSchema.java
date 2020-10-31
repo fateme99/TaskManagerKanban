@@ -16,6 +16,7 @@ public  class DatabaseSchema {
             public static final String TASKSTATE="taskState";
             public static final String DATE="date";
             public static final String CLOCK="clock";
+            public static final String USER_ID="userId";
         }
     }
     public class UserTable{

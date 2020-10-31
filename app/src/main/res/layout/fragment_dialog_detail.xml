@@ -1,121 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:padding="16dp"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.google.android.material.textfield.TextInputLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_txt"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title_dialog"
+
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/title_txt">
 
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:hint="@string/description_txt"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/desc_dialog"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:textColor="#000"
-        android:id="@+id/date_dialog"
-        android:hint="Sep 06,2019"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/light_blue_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:textColor="#000"
-        android:id="@+id/clock_dialog"
-        android:hint="1:09 PM"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/light_blue_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <RadioGroup
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/todo_add_radioBtn"
-            android:text="@string/todo"
+            android:layout_height="100dp"
             android:layout_marginTop="8dp"
+            android:hint="@string/description_txt">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/desc_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/date_dialog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/doing_add_radioBtn"
-            android:text="@string/doing"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/light_blue_main"
+            android:hint="Sep 06,2019"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/clock_dialog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/done_add_radioBtn"
-            android:text="@string/done_txt"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/light_blue_main"
+            android:hint="1:09 PM"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <RadioGroup
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
 
-    </RadioGroup>
-    <LinearLayout
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/todo_add_radioBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/todo" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/doing_add_radioBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/doing" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/done_add_radioBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/done_txt" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:clickable="true"
-            android:gravity="center"
-            android:id="@+id/delete_btn"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:gravity="center"
-            android:id="@+id/edit_btn"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/edit"
-            android:clickable="true"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:gravity="center"
-            android:id="@+id/save_btn"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/save"
-            android:clickable="true"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/delete_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/delete"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/save_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
 
 
     </LinearLayout>
-
-
-
-
-
-
-</LinearLayout>
+</ScrollView>

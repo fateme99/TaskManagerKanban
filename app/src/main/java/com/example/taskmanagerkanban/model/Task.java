@@ -11,22 +11,32 @@ public class Task implements Serializable {
     private String mDescription;
     private Date mDate;
     private String mTaskState;
+    private UUID mUser_id;
     //private TaskState mTaskState;
 
 
-    public Task(UUID id, String title, String description, Date date, String taskState) {
-        this(title,description,date,taskState);
+    public Task(UUID id, String title, String description, Date date, String taskState , UUID user_id) {
+        this(title,description,date,taskState,user_id);
         mId = id;
 
     }
 
-    public Task(String title, String description, Date date, String taskState) {
+    public Task(String title, String description, Date date, String taskState,UUID user_id) {
         mTitle = title;
         mDescription = description;
         mDate = date;
 
         mTaskState = taskState;
         mId=UUID.randomUUID();
+        mUser_id=user_id;
+    }
+
+    public UUID getUser_id() {
+        return mUser_id;
+    }
+
+    public void setUser_id(UUID user_id) {
+        mUser_id = user_id;
     }
 
     public Task() {

@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -40,15 +41,17 @@ public class TaskListFragment extends Fragment  {
     private TaskRepository mTaskRepository;
     private int mPosition;
     private TaskAdapter mAdapter;
+    private UUID mUser_id;
     public TaskListFragment() {
         // Required empty public constructor
     }
 
-    public static TaskListFragment newInstance(int  position) {
+    public static TaskListFragment newInstance(int  position , UUID user_id) {
 
         Bundle args = new Bundle();
         TaskListFragment fragment = new TaskListFragment();
         args.putInt(ARG_KEY_TASKSTATE,position);
+        args.putSerializable(LoginFragment.EXTRA_USER_ID,user_id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,6 +62,7 @@ public class TaskListFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPosition=getArguments().getInt(ARG_KEY_TASKSTATE);
+        mUser_id= (UUID) getArguments().getSerializable(LoginFragment.EXTRA_USER_ID);
         mTaskRepository=TaskRepository.getInstance(getContext());
 
     }
@@ -115,8 +119,7 @@ public class TaskListFragment extends Fragment  {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                DetailTaskFragment fragment=DetailTaskFragment.newInstance(mTask);
-
+                DetailTaskFragment fragment=DetailTaskFragment.newInstance(mTask,mUser_id);
                 fragment.show(getActivity().getSupportFragmentManager(),TAG_FRAGMENT_DETAIL);
 
 
@@ -186,7 +189,7 @@ public class TaskListFragment extends Fragment  {
                 state="TODO";
         }
         mTaskRepository=TaskRepository.getInstance(getActivity());
-        List<Task>tasks=mTaskRepository.getTasks(state);
+        List<Task>tasks=mTaskRepository.getTasks(state,mUser_id);
         if (tasks.size()==0){
             mFrameLayout_empty.setVisibility(View.VISIBLE);
             mFrameLayout_recycler.setVisibility(View.GONE);

@@ -26,21 +26,25 @@ import com.example.taskmanagerkanban.repository.TaskRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 
 public class DetailTaskFragment extends DialogFragment {
     private static final String ARGS_TASK = "task";
+    private static final String ARGS_USER_ID = "userId";
     private static final int REQUEST_CODE_DATE_PICKER = 0;
     private static final int REQUEST_CODE_TIME_PICKER = 1;
     private static final String FRAGMENT_TAG_DATE_PICKER ="datePicker" ;
     private static final String FRAGMENT_TAG_TIME_PICKER = "timePicker" ;
     private static final String TAG_CALLBACK = "callback";
+
     private Callbacks mCallbacks;
     private TextView mTextView_save,mTextView_edit,mTextView_delete;
     private RadioButton mRadioButton_todo,mRadioButton_doing,mRadioButton_done;
     private EditText mEditText_title,mEditText_desc;
     private Button mButton_date,mButton_clock;
     private Task mTask;
+    private UUID mUserId;
     private TaskRepository mTaskRepository;
     public DetailTaskFragment() {
         // Required empty public constructor
@@ -52,14 +56,18 @@ public class DetailTaskFragment extends DialogFragment {
         if (context instanceof Callbacks){
             mCallbacks= (Callbacks) context;
             Log.d(TAG_CALLBACK, "onAttach: is instance");
+        }else {
+            throw new ClassCastException(("must implement callbacks"));
         }
+
 
     }
 
-    public static DetailTaskFragment newInstance(Task task) {
+    public static DetailTaskFragment newInstance(Task task, UUID userId) {
         
         Bundle args = new Bundle();
         args.putSerializable(ARGS_TASK,task);
+        args.putSerializable(ARGS_USER_ID,userId);
         DetailTaskFragment fragment = new DetailTaskFragment();
         fragment.setArguments(args);
         return fragment;
@@ -85,6 +93,7 @@ public class DetailTaskFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTask= (Task) getArguments().getSerializable(ARGS_TASK);
+        mUserId= (UUID) getArguments().getSerializable(ARGS_USER_ID);
         mTaskRepository=TaskRepository.getInstance(getActivity());
     }
 
@@ -156,7 +165,7 @@ public class DetailTaskFragment extends DialogFragment {
             public void onClick(View view) {
                 getDialogView();
                 mTaskRepository.insert(new Task(
-                        mTask.getTitle(),mTask.getDescription(),mTask.getDate(),mTask.getTaskState()));
+                        mTask.getTitle(),mTask.getDescription(),mTask.getDate(),mTask.getTaskState(),mUserId));
                 Toast.makeText(getActivity(), "insert new task successfully.", Toast.LENGTH_SHORT)
                         .show();
                 getDialog().dismiss();

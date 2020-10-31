@@ -12,6 +12,10 @@ public class User {
         mPassWord = passWord;
         mUUID=UUID.randomUUID();
     }
+    public User(String userName,String passWord,UUID id){
+        this(userName,passWord);
+        mUUID=id;
+    }
 
     public UUID getUUID() {
         return mUUID;

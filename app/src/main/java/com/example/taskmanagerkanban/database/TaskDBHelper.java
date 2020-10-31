@@ -25,7 +25,8 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         sbTask.append(TaskCols.DESCRIPTION + " TEXT , ");
         sbTask.append(TaskCols.TASKSTATE + " TEXT , ");
         sbTask.append(TaskCols.DATE + " TEXT ,");
-        sbTask.append(TaskCols.CLOCK + " TEXT ");
+        sbTask.append(TaskCols.CLOCK + " TEXT ,");
+        sbTask.append(TaskCols.USER_ID + " INTEGER ");
         sbTask.append(");");
         sqLiteDatabase.execSQL(sbTask.toString());
 

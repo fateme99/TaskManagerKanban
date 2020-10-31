@@ -20,13 +20,15 @@ import com.example.taskmanagerkanban.model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class LoginFragment extends Fragment {
+    public static final String EXTRA_USER_ID ="com.example.taskmanagerkanban.userId" ;
     private TextInputEditText mEditText_userName,mEditText_pass;
     private Button mButton_login,mButton_signUp;
     private UserDBRepository mRepository;
-
+    private UUID mUserId;
     public static LoginFragment newInstance() {
         Bundle args = new Bundle();
         
@@ -78,6 +80,7 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void run() {
                             Intent intent= TaskListActivity.newIntent(getActivity());
+                            intent.putExtra(EXTRA_USER_ID,mUserId);
                             startActivity(intent);
                         }
                     },2000);
@@ -106,8 +109,11 @@ public class LoginFragment extends Fragment {
         if (user==null){
             return false;
         }
-        if (user.getPassWord().equals(pass))
+        if (user.getPassWord().equals(pass)){
+            mUserId=mRepository.get(userName).getUUID();
             return true;
+        }
+
         return false;
     }
 }

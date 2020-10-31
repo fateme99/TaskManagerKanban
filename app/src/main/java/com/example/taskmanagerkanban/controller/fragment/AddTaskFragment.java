@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -38,6 +39,7 @@ public class AddTaskFragment extends DialogFragment {
     private static final String FRAGMENT_TAG_TIME_PICKER ="TimePicker" ;
     private static final int REQUEST_CODE_DATE_PICKER =0 ;
     private static final int REQUEST_CODE_TIME_PICKER = 1;
+    private static final String ARGS_USER_ID = "userId";
     private Callbacks mCallbacks;
     private TextInputEditText mTitle,mDesc;
     private Button mDate_btn, mClock_btn;
@@ -49,10 +51,10 @@ public class AddTaskFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static AddTaskFragment newInstance() {
+    public static AddTaskFragment newInstance(UUID userId) {
         
         Bundle args = new Bundle();
-        
+        args.putSerializable(ARGS_USER_ID,userId);
         AddTaskFragment fragment = new AddTaskFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,6 +65,9 @@ public class AddTaskFragment extends DialogFragment {
         super.onAttach(context);
         if (context instanceof Callbacks)
             mCallbacks= (Callbacks) context;
+        else {
+            throw new ClassCastException(("must implement callbacks"));
+        }
     }
 
     @Override
@@ -89,6 +94,7 @@ public class AddTaskFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         mTaskRepository=TaskRepository.getInstance(getActivity());
         mTask=new Task();
+        mTask.setUser_id((UUID) getArguments().getSerializable(ARGS_USER_ID));
     }
 
 
@@ -143,6 +149,7 @@ public class AddTaskFragment extends DialogFragment {
                     mTaskRepository.insert(mTask);
                     Toast.makeText(getActivity(), "add task successfully", Toast.LENGTH_SHORT)
                             .show();
+                    mCallbacks.updateTaskListAdapter();
                     getDialog().dismiss();
                 }
             }

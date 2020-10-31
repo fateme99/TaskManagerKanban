@@ -74,6 +74,44 @@ public class TaskRepository {
         }
         return tasks;
     }
+    public List<Task>getTasks(UUID userId){
+        List<Task>tasks=new ArrayList<>();
+        String selection=TaskCols.USER_ID+" =? ";
+        String[] selectionArgs=new String[]{userId.toString()};
+        TaskCursorWrapper taskCursorWrapper=getTaskCursorWrapper(selection,selectionArgs);
+        if (taskCursorWrapper==null     ||    taskCursorWrapper.getCount()==0 )
+            return tasks;
+        try {
+            taskCursorWrapper.moveToFirst();
+            while (!taskCursorWrapper.isAfterLast()){
+                tasks.add(taskCursorWrapper.getTask());
+                taskCursorWrapper.moveToNext();
+            }
+
+        }finally {
+            taskCursorWrapper.close();
+        }
+        return tasks;
+    }
+    public List<Task> getTasks(String state,UUID uuid){
+        List<Task>tasks=new ArrayList<>();
+        String selection=TaskCols.USER_ID+" =? "+" AND "+TaskCols.TASKSTATE+ " =? ";
+        String[] selectionArgs=new String[]{uuid.toString(),state};
+        TaskCursorWrapper taskCursorWrapper=getTaskCursorWrapper(selection,selectionArgs);
+        if (taskCursorWrapper==null     ||  taskCursorWrapper.getCount()==0)
+            return tasks;
+        try {
+            taskCursorWrapper.moveToFirst();
+            while (!taskCursorWrapper.isAfterLast()){
+                tasks.add(taskCursorWrapper.getTask());
+                taskCursorWrapper.moveToNext();
+            }
+
+        }finally {
+            taskCursorWrapper.close();;
+        }
+        return tasks;
+    }
     public Task getTask(UUID uuid){
         String selection=TaskCols.UUID+" =? ";
         String[] selectionArgs=new String[]{uuid.toString()};
@@ -87,6 +125,7 @@ public class TaskRepository {
             taskCursorWrapper.close();;
         }
     }
+
     public void updateTask(Task task) {
         String whereClause = TaskCols.UUID + " =? ";
         String[] whereArgs = new String[]{task.getId().toString()};
@@ -98,6 +137,13 @@ public class TaskRepository {
         String whereClause=TaskCols.UUID+" =? ";
         String[] whereArgs=new String[]{uuid.toString()};
         mDatabase.delete(DatabaseSchema.TaskTable.NAME,whereClause,whereArgs);
+    }
+
+    public void deleteAll(UUID user_id){
+        List<Task>tasks=getTasks(user_id);
+        for (Task task :tasks) {
+            deleteTask(task.getId());
+        }
     }
     public void insert (Task task){
         ContentValues values = getContentValues(task);
@@ -114,6 +160,7 @@ public class TaskRepository {
         values.put(TaskCols.DESCRIPTION,task.getDescription());
         values.put(TaskCols.TASKSTATE,task.getTaskState());
         values.put(TaskCols.DATE,task.getDate().getTime());
+        values.put(TaskCols.USER_ID,task.getUser_id().toString());
         return values;
     }
 

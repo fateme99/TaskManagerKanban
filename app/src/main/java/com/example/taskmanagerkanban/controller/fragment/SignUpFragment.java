@@ -72,14 +72,15 @@ public class SignUpFragment extends Fragment {
                 }
                 else {
                     if (pass.equals(rePass)){
-
-                        mRepository.insert(new User(userName,pass));
+                        final User user=new User(userName,pass);
+                        mRepository.insert(user);
                         Toast.makeText(getActivity(), "ثبت نام با موفقیت انجام شد", Toast.LENGTH_SHORT).show();
                         Handler handler=new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Intent intent= TaskListActivity.newIntent(getActivity());
+                                intent.putExtra(LoginFragment.EXTRA_USER_ID,user.getUUID());
                                 startActivity(intent);
                                 getActivity().finish();
                             }
