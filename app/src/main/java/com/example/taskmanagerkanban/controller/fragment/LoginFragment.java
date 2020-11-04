@@ -82,9 +82,11 @@ public class LoginFragment extends Fragment {
                             if (mUser.isManager()){
                                 Intent intent= TaskListAdminActivity.newIntent(getActivity());
                                 startActivity(intent);
+                                getActivity().finish();
                             }else {
                                 Intent intent = TaskListActivity.newIntent(getActivity(),mUser);
                                 startActivity(intent);
+                                getActivity().finish();
                             }
                         }
                     },2000);
@@ -107,6 +109,8 @@ public class LoginFragment extends Fragment {
     }
     private boolean checkUserInfo(String userName,String pass){
         List<User>users=mRepository.get(userName);
+        if (users==null || users.size()==0)
+            return false;
         for (User user:users) {
             if (user.getPassWord().equals(pass)){
                 mUser=user;

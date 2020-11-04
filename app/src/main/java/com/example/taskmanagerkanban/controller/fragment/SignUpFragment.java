@@ -89,9 +89,11 @@ public class SignUpFragment extends Fragment {
                                 if (isManager) {
                                     Intent intent = TaskListAdminActivity.newIntent(getActivity());
                                     startActivity(intent);
+                                    getActivity().finish();
                                 } else {
                                     Intent intent = TaskListActivity.newIntent(getActivity(),user);
                                     startActivity(intent);
+                                    getActivity().finish();
                                 }
                                 getActivity().finish();
                             }

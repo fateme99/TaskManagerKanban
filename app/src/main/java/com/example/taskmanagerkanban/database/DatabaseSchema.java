@@ -27,6 +27,7 @@ public  class DatabaseSchema {
             public static final String USERNAME="userName";
             public static final String PASSWORD="passWord";
             public static final String ISMANAGER ="adminUser";
+            public static final String SIGNUPDATE="signUpDate";
         }
     }
     /*public class TaskState{

@@ -43,6 +43,9 @@ public class TaskListAdminActivity extends SingleFragmentActivity implements Edi
                 Intent intent=LoginActivity.newIntent(this);
                 startActivity(intent);
                 return true;
+            case R.id.users_list:
+                Intent intent1=UsersListActivity.newIntent(this);
+                startActivity(intent1);
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -51,6 +51,26 @@ public class UserDBRepository {
         return users;
 
     }
+    public List<User>getUsers(){
+        List<User>users=new ArrayList<>();
+        String where=UserCols.ISMANAGER+" =? ";
+        String[] whereArgs=new String[]{"0"};
+        UserCursorWrapper cursor= queryUserCursor(where, whereArgs);
+        if (cursor ==null || cursor.getCount()==0){
+            return users;
+        }
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                User user=cursor.getUser();
+                users.add(user);
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+        return users;
+    }
 
 
     public List<User> get(String userName) {
@@ -146,6 +166,7 @@ public class UserDBRepository {
         contentValues.put(UserCols.USERNAME,user.getUserName());
         contentValues.put(UserCols.PASSWORD,user.getPassWord());
         contentValues.put(UserCols.ISMANAGER,user.isManager());
+        contentValues.put(UserCols.SIGNUPDATE,user.getDate_signUp().getTime());
         return contentValues;
     }
     private UserCursorWrapper queryUserCursor(String where, String[] whereArgs) {

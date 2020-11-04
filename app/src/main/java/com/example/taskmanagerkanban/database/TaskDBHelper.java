@@ -35,7 +35,8 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         stringBuilder.append(UserCols.UUID+ " INTEGER ,");
         stringBuilder.append(UserCols.USERNAME +" TEXT ,");
         stringBuilder.append(UserCols.PASSWORD + " TEXT ,");
-        stringBuilder.append(UserCols.ISMANAGER +" INTEGER ");
+        stringBuilder.append(UserCols.ISMANAGER +" INTEGER ,");
+        stringBuilder.append(UserCols.SIGNUPDATE+ " TEXT ");
         stringBuilder.append(" );");
         sqLiteDatabase.execSQL(stringBuilder.toString());
 

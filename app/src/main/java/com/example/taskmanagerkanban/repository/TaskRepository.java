@@ -93,6 +93,11 @@ public class TaskRepository {
         }
         return tasks;
     }
+
+    public int countTasks(UUID userId){
+        return getTasks(userId).size();
+
+    }
     public List<Task> getTasks(String state,UUID uuid){
         List<Task>tasks=new ArrayList<>();
         String selection=TaskCols.USER_ID+" =? "+" AND "+TaskCols.TASKSTATE+ " =? ";
