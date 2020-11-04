@@ -12,14 +12,12 @@
     <string name="cancel">cancel</string>
     <string name="edit">edit</string>
     <string name="delete">delete</string>
-    <string name="login_txt">ورود</string>
-    <string name="sign_up">ثبت نام</string>
-    <string name="userName">نام کاربری</string>
-    <string name="passWord">رمز عبور</string>
-    <string name="re_passWord">تکرار رمز عبور</string>
-    <string name="email">ایمیل </string>
-    <string name="phoneNo">شماره تماس   </string>
-    <string name="fill_please">لطفا همه ی اطلاعات خواسته شده را وارد کنید .</string>
-    <string name="wrong_user_info">نام کاربری یا رمز عبور نادرست است.</string>
-    <string name="book_name">نام اثر :</string>
+    <string name="login_txt">login</string>
+    <string name="sign_up">sign up</string>
+    <string name="userName">user name</string>
+    <string name="passWord">pass word </string>
+    <string name="re_passWord">repeat pass word</string>
+    <string name="fill_please">please fill all inputs.</string>
+    <string name="wrong_user_info">wrong user name or pass word</string>
+    <string name="no_task_manager">no task dear Manager!</string>
 </resources>

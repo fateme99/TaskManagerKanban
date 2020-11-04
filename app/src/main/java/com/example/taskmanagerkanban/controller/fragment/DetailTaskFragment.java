@@ -141,7 +141,7 @@ public class DetailTaskFragment extends DialogFragment {
             default:
                 mRadioButton_done.setChecked(true);
         }
-        // TODO: 10/27/2020 set clock
+
     }
     private void setListeners(){
         mButton_date.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +197,7 @@ public class DetailTaskFragment extends DialogFragment {
         mTask.setTitle(mEditText_title.getText().toString());
         mTask.setDescription(mEditText_desc.getText().toString());
         getTaskState();
+
         // TODO: 10/28/2020 set clock
     }
     private void getTaskState(){

@@ -1,38 +1,40 @@
 package com.example.taskmanagerkanban.controller.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taskmanagerkanban.R;
-import com.example.taskmanagerkanban.controller.activity.TaskListActivity;
-import com.example.taskmanagerkanban.controller.fragment.DetailTaskFragment.Callbacks;
+import com.example.taskmanagerkanban.controller.activity.LoginActivity;
 import com.example.taskmanagerkanban.model.Task;
+import com.example.taskmanagerkanban.model.User;
 import com.example.taskmanagerkanban.repository.TaskRepository;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
 
-public class TaskListFragment extends Fragment  {
+public class TaskListUserFragment extends Fragment  {
 
     private static final String ARG_KEY_TASKSTATE="com.example.taskmanagerkanban.taskState";
     private static final String TAG_FRAGMENT_DETAIL ="detailTask" ;
@@ -41,20 +43,25 @@ public class TaskListFragment extends Fragment  {
     private TaskRepository mTaskRepository;
     private int mPosition;
     private TaskAdapter mAdapter;
-    private UUID mUser_id;
-    public TaskListFragment() {
+    private User mUser;
+    public TaskListUserFragment() {
         // Required empty public constructor
     }
 
-    public static TaskListFragment newInstance(int  position , UUID user_id) {
+    public static TaskListUserFragment newInstance(int  position , User user) {
 
         Bundle args = new Bundle();
-        TaskListFragment fragment = new TaskListFragment();
+        TaskListUserFragment fragment = new TaskListUserFragment();
         args.putInt(ARG_KEY_TASKSTATE,position);
-        args.putSerializable(LoginFragment.EXTRA_USER_ID,user_id);
+        args.putSerializable(LoginFragment.EXTRA_USER,user);
         fragment.setArguments(args);
         return fragment;
     }
+
+
+
+
+
 
 
 
@@ -62,8 +69,9 @@ public class TaskListFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPosition=getArguments().getInt(ARG_KEY_TASKSTATE);
-        mUser_id= (UUID) getArguments().getSerializable(LoginFragment.EXTRA_USER_ID);
+        mUser= (User) getArguments().getSerializable(LoginFragment.EXTRA_USER);
         mTaskRepository=TaskRepository.getInstance(getContext());
+
 
     }
 
@@ -71,7 +79,7 @@ public class TaskListFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view= inflater.inflate(R.layout.fragment_main, container, false);
+        View view= inflater.inflate(R.layout.fragment_task_list_user, container, false);
         findViews(view);
         initView();
         setListeners();
@@ -119,7 +127,7 @@ public class TaskListFragment extends Fragment  {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                DetailTaskFragment fragment=DetailTaskFragment.newInstance(mTask,mUser_id);
+                DetailTaskFragment fragment=DetailTaskFragment.newInstance(mTask,mUser.getUUID());
                 fragment.show(getActivity().getSupportFragmentManager(),TAG_FRAGMENT_DETAIL);
 
 
@@ -189,7 +197,7 @@ public class TaskListFragment extends Fragment  {
                 state="TODO";
         }
         mTaskRepository=TaskRepository.getInstance(getActivity());
-        List<Task>tasks=mTaskRepository.getTasks(state,mUser_id);
+        List<Task>tasks=mTaskRepository.getTasks(state,mUser.getUUID());
         if (tasks.size()==0){
             mFrameLayout_empty.setVisibility(View.VISIBLE);
             mFrameLayout_recycler.setVisibility(View.GONE);

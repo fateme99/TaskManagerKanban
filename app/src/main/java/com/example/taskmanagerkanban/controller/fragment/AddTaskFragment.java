@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.model.Task;
+import com.example.taskmanagerkanban.model.User;
 import com.example.taskmanagerkanban.repository.TaskRepository;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -39,7 +40,7 @@ public class AddTaskFragment extends DialogFragment {
     private static final String FRAGMENT_TAG_TIME_PICKER ="TimePicker" ;
     private static final int REQUEST_CODE_DATE_PICKER =0 ;
     private static final int REQUEST_CODE_TIME_PICKER = 1;
-    private static final String ARGS_USER_ID = "userId";
+    private static final String ARGS_USER = "user";
     private Callbacks mCallbacks;
     private TextInputEditText mTitle,mDesc;
     private Button mDate_btn, mClock_btn;
@@ -51,10 +52,10 @@ public class AddTaskFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static AddTaskFragment newInstance(UUID userId) {
+    public static AddTaskFragment newInstance(User user) {
         
         Bundle args = new Bundle();
-        args.putSerializable(ARGS_USER_ID,userId);
+        args.putSerializable(ARGS_USER,user);
         AddTaskFragment fragment = new AddTaskFragment();
         fragment.setArguments(args);
         return fragment;
@@ -94,7 +95,8 @@ public class AddTaskFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         mTaskRepository=TaskRepository.getInstance(getActivity());
         mTask=new Task();
-        mTask.setUser_id((UUID) getArguments().getSerializable(ARGS_USER_ID));
+        User user= (User) getArguments().getSerializable(ARGS_USER);
+        mTask.setUser_id(user.getUUID());
     }
 
 

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/titile_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="22sp"
+        tools:text="تمرین سری اول"
+        android:layout_toRightOf="@+id/pic_item_txt"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/time_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titile_item"
+        android:layout_alignParentRight="true"
+        android:textSize="15sp"
+        tools:text="1345/4/14"
+        android:textColor="#000"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/pic_item_txt"
+        android:layout_marginLeft="8dp"/>
+    <TextView
+        android:id="@+id/user_item"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/time_item"
+        android:layout_toLeftOf="@id/delete_item"
+        android:layout_alignParentLeft="true"
+        android:padding="8dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/state_item"
+        android:layout_below="@+id/user_item"
+        android:layout_toLeftOf="@+id/delete_item"
+        android:layout_marginRight="8dp"
+        android:padding="8dp"
+        android:layout_alignParentLeft="true"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/pic_item_txt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="2dp"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:background="@drawable/circle_shap"
+        android:text="ت"
+        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:src="@drawable/ic_edit_icon"
+        android:id="@+id/edit_item"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/time_item"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:src="@drawable/ic_delete"
+        android:id="@+id/delete_item"
+
+        android:layout_toLeftOf="@+id/edit_item"
+        android:layout_below="@+id/time_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

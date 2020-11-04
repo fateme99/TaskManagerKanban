@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.taskmanagerkanban.R;
+import com.example.taskmanagerkanban.controller.activity.TaskListAdminActivity;
 import com.example.taskmanagerkanban.repository.UserDBRepository;
 import com.example.taskmanagerkanban.controller.activity.TaskListActivity;
 import com.example.taskmanagerkanban.controller.activity.SignUPActivity;
@@ -20,15 +21,14 @@ import com.example.taskmanagerkanban.model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-import java.util.UUID;
 
 
 public class LoginFragment extends Fragment {
-    public static final String EXTRA_USER_ID ="com.example.taskmanagerkanban.userId" ;
+    public static final String EXTRA_USER ="com.example.taskmanagerkanban.user" ;
     private TextInputEditText mEditText_userName,mEditText_pass;
     private Button mButton_login,mButton_signUp;
     private UserDBRepository mRepository;
-    private UUID mUserId;
+    private User mUser;
     public static LoginFragment newInstance() {
         Bundle args = new Bundle();
         
@@ -79,9 +79,13 @@ public class LoginFragment extends Fragment {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent= TaskListActivity.newIntent(getActivity());
-                            intent.putExtra(EXTRA_USER_ID,mUserId);
-                            startActivity(intent);
+                            if (mUser.isManager()){
+                                Intent intent= TaskListAdminActivity.newIntent(getActivity());
+                                startActivity(intent);
+                            }else {
+                                Intent intent = TaskListActivity.newIntent(getActivity(),mUser);
+                                startActivity(intent);
+                            }
                         }
                     },2000);
 
@@ -102,18 +106,13 @@ public class LoginFragment extends Fragment {
         });
     }
     private boolean checkUserInfo(String userName,String pass){
-        List<User> users=mRepository.getList();
-        if (users==null)
-            return false;
-        User user=mRepository.get(userName);
-        if (user==null){
-            return false;
+        List<User>users=mRepository.get(userName);
+        for (User user:users) {
+            if (user.getPassWord().equals(pass)){
+                mUser=user;
+                return true;
+            }
         }
-        if (user.getPassWord().equals(pass)){
-            mUserId=mRepository.get(userName).getUUID();
-            return true;
-        }
-
         return false;
     }
 }

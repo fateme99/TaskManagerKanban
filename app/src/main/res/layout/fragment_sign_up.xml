@@ -58,7 +58,12 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/isManager_checkBox"
+                android:layout_marginRight="120dp"
+                android:text="as manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/signUp_btn"
                 android:text="@string/sign_up"

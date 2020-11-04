@@ -13,7 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.telecom.Call;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,15 +24,18 @@ import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.controller.fragment.AddTaskFragment;
 import com.example.taskmanagerkanban.controller.fragment.DetailTaskFragment;
 import com.example.taskmanagerkanban.controller.fragment.LoginFragment;
-import com.example.taskmanagerkanban.controller.fragment.TaskListFragment;
+import com.example.taskmanagerkanban.controller.fragment.TaskListUserFragment;
 
+import com.example.taskmanagerkanban.model.User;
 import com.example.taskmanagerkanban.repository.TaskRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.zip.Inflater;
+
+import static com.example.taskmanagerkanban.controller.fragment.LoginFragment.EXTRA_USER;
 
 public class TaskListActivity extends AppCompatActivity implements DetailTaskFragment.Callbacks
         , AddTaskFragment.Callbacks {
@@ -40,45 +43,47 @@ public class TaskListActivity extends AppCompatActivity implements DetailTaskFra
     private static final String EXTRA_TASK_LIST_FRAGMENT_OBJ = "com.example.taskmanagerkanban.mTaskListFragment";
     private TabLayout mTabLayout;
     private ViewPager2 mPager2;
-
-    private TaskListFragment mTaskListFragment;
+    private User mUser;
+    private TaskListUserFragment mTaskListUserFragment;
     private FloatingActionButton mButton_plus;
 
-    public static Intent newIntent(Context context){
-        return new Intent(context, TaskListActivity.class);
+    public static Intent newIntent(Context context,User user){
+        Intent intent= new Intent(context, TaskListActivity.class);
+        intent.putExtra(EXTRA_USER,user);
+        return intent;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        outState.putSerializable(EXTRA_TASK_LIST_FRAGMENT_OBJ, (Serializable) mTaskListFragment);
+        outState.putSerializable(EXTRA_TASK_LIST_FRAGMENT_OBJ, (Serializable) mTaskListUserFragment);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.user_log_out,menu);
+        inflater.inflate(R.menu.menu_user_fragment,menu);
         return true;
-
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.log_out:
-                Intent intent=LoginActivity.newIntent(this);
+                Intent intent = LoginActivity.newIntent(this);
                 startActivity(intent);
                 return true;
             case R.id.delete_all_item:
 
-                final AlertDialog alertDialog=new AlertDialog.Builder(this).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Are sure ?");
                 alertDialog.setMessage("this action will remove all of your task !");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         TaskRepository.getInstance(TaskListActivity.this).deleteAll
-                                ((UUID) getIntent().getSerializableExtra(LoginFragment.EXTRA_USER_ID));
+                                (mUser.getUUID());
                         updateTaskListAdapter();
                         dialogInterface.dismiss();
                     }
@@ -95,6 +100,7 @@ public class TaskListActivity extends AppCompatActivity implements DetailTaskFra
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+
         }
 
     }
@@ -103,11 +109,12 @@ public class TaskListActivity extends AppCompatActivity implements DetailTaskFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mUser= (User) getIntent().getSerializableExtra(EXTRA_USER);
         findViews();
         setListeners();
         initView();
         if (savedInstanceState!=null)
-            mTaskListFragment= (TaskListFragment) savedInstanceState.
+            mTaskListUserFragment = (TaskListUserFragment) savedInstanceState.
                     getSerializable(EXTRA_TASK_LIST_FRAGMENT_OBJ);
     }
     private void findViews(){
@@ -122,7 +129,7 @@ public class TaskListActivity extends AppCompatActivity implements DetailTaskFra
             @Override
             public void onClick(View view) {
                 AddTaskFragment addTaskFragment=AddTaskFragment.newInstance(
-                        (UUID) getIntent().getSerializableExtra(LoginFragment.EXTRA_USER_ID));
+                        (User) getIntent().getSerializableExtra(EXTRA_USER));
                 addTaskFragment.show(getSupportFragmentManager(),TAG_ADD_TASK);
             }
         });
@@ -156,8 +163,9 @@ public class TaskListActivity extends AppCompatActivity implements DetailTaskFra
         @Override
         public Fragment createFragment(int position) {
 
-            mTaskListFragment=TaskListFragment.newInstance(position, (UUID) getIntent().getSerializableExtra(LoginFragment.EXTRA_USER_ID));
-            return mTaskListFragment;
+            mTaskListUserFragment = TaskListUserFragment.newInstance(position, (User) getIntent().
+                    getSerializableExtra(EXTRA_USER));
+            return mTaskListUserFragment;
         }
 
         @Override
@@ -196,7 +204,7 @@ public class TaskListActivity extends AppCompatActivity implements DetailTaskFra
     @Override
     public void updateTaskListAdapter() {
         
-        mTaskListFragment.updateAdapter();
+        mTaskListUserFragment.updateAdapter();
 
     }
 }
