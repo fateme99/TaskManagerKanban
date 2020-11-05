@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +28,11 @@ import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.model.User;
 import com.example.taskmanagerkanban.repository.TaskRepository;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -116,13 +120,14 @@ public class TaskListUserFragment extends Fragment  {
     }
     private class TaskHolder extends RecyclerView.ViewHolder {
         private TextView mTextView_title,mTextView_time,mTextView_pic;
-
+        private ImageView mImageView_share;
         private Task mTask;
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             mTextView_title=itemView.findViewById(R.id.titile_item);
             mTextView_time=itemView.findViewById(R.id.time_item);
             mTextView_pic=itemView.findViewById(R.id.pic_item_txt);
+            mImageView_share=itemView.findViewById(R.id.share_icon);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,19 +138,31 @@ public class TaskListUserFragment extends Fragment  {
 
                 }
             });
+            mImageView_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent sendIntent=new Intent(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, createReportMessage(mTask));
+                    sendIntent.setType("text/plain");
+                    Intent shareIntent = Intent.createChooser(sendIntent, null);
+                    if (sendIntent.resolveActivity(getActivity().getPackageManager()) !=null)
+                        startActivity(shareIntent);
+                }
+            });
 
         }
         public void bindTask(Task task){
             mTask=task;
             mTextView_title.setText(task.getTitle());
-            SimpleDateFormat format=new SimpleDateFormat("MMM dd , yyyy  hh : mm a");
-            String dateString=format.format(task.getDate());
+            String dateString = getStringForDate(task.getDate());
             mTextView_time.setText(dateString);
             mTextView_pic.setText(mTask.getTitle().charAt(0)+"");
         }
 
 
     }
+
+
 
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder>{
 
@@ -214,6 +231,21 @@ public class TaskListUserFragment extends Fragment  {
 
         }
 
+    }
+    @NotNull
+    private String getStringForDate(Date date) {
+        SimpleDateFormat format=new SimpleDateFormat("MMM dd , yyyy  hh : mm a");
+        return format.format(date);
+    }
+    private String createReportMessage(Task task){
+
+        String report=getString(
+                R.string.report_message,
+                task.getTitle(),
+                task.getDescription(),
+                task.getTaskState(),
+                getStringForDate(task.getDate()));
+        return report;
     }
 
 }

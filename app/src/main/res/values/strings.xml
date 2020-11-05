@@ -20,4 +20,8 @@
     <string name="fill_please">please fill all inputs.</string>
     <string name="wrong_user_info">wrong user name or pass word</string>
     <string name="no_task_manager">no task dear Manager!</string>
+    <string name="report_message">%1$s!
+        %2$s.
+        This task is %3$s , and set on %4$s.
+    </string>
 </resources>
