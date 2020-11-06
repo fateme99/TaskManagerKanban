@@ -36,20 +36,25 @@
         android:padding="8dp"
         tools:text="100" />
     <ImageView
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_baseline_delete_forever_24"
         android:id="@+id/delete_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <ImageView
+        android:padding="5dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20sp"
         android:id="@+id/user_pic_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        tools:srcCompat="@tools:sample/avatars" />
+
+        android:src="@drawable/ic_baseline_account_circle_24"
+         />
 
 </RelativeLayout>

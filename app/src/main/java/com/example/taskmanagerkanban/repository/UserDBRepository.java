@@ -146,6 +146,7 @@ public class UserDBRepository {
         String whereClause=UserCols.USERNAME+" = ? ";
         String[] whereArgs=new String[]{user.getUserName()};
         mDatabase.delete(DatabaseSchema.UserTable.NAME,whereClause,whereArgs);
+        TaskRepository.getInstance(mContext).deleteAll(user.getUUID());
     }
 
 

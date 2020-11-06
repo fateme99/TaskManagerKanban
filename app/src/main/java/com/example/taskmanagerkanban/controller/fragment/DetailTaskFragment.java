@@ -245,9 +245,13 @@ public class DetailTaskFragment extends DialogFragment {
                         startActivityForResult(takePictureIntent, REQUEST_CODE_IMAGE_CAPTURE);
                     }
 
+
                 } catch (ActivityNotFoundException e) {
                     Log.e(TAG, e.getMessage(),e );
                 }
+                /*Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto , 1);*/
             }
         });
     }

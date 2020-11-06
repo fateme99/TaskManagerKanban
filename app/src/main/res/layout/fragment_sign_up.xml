@@ -65,9 +65,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <Button
+                android:backgroundTint="#adfc03"
                 android:id="@+id/signUp_btn"
                 android:text="@string/sign_up"
-                android:textSize="@dimen/meduim_font"
+                android:textSize="20sp"
+                android:textColor="#000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

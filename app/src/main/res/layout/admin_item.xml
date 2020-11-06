@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/titile_item"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/delete_item"
         android:textSize="15sp"
         tools:text="1345/4/14"
         android:textColor="#000"
@@ -64,20 +64,20 @@
         android:text="ت"
         app:layout_constraintStart_toStartOf="parent" />
     <ImageView
-        android:src="@drawable/ic_edit_icon"
+        android:src="@drawable/ic_baseline_edit_24"
         android:id="@+id/edit_item"
         android:layout_width="wrap_content"
-        android:layout_below="@id/time_item"
+        android:layout_below="@id/titile_item"
         android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:layout_height="wrap_content"/>
     <ImageView
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_baseline_delete_24"
         android:id="@+id/delete_item"
 
         android:layout_toLeftOf="@+id/edit_item"
-        android:layout_below="@+id/time_item"
+        android:layout_below="@+id/titile_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

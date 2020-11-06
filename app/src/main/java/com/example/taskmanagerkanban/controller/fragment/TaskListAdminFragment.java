@@ -50,7 +50,11 @@ public class TaskListAdminFragment extends Fragment  {
         return fragment;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateAdapter();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -99,8 +99,8 @@ public class UsersListFragment extends Fragment {
             mUser=user;
 
             String dateString = getStringForTimeView();
-            mTextView_time.setText(dateString);
-            mTextView_userName.setText(user.getUserName());
+            mTextView_time.setText("date : "+dateString);
+            mTextView_userName.setText("user name : "+user.getUserName());
             int num=mTaskRepository.countTasks(mUser.getUUID());
             mTextView_numOfTask.setText("num of tasks : "+num);
             // TODO: 11/4/2020 setUser pic
