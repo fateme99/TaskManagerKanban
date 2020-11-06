@@ -79,4 +79,8 @@ public class Task implements Serializable {
         mDate = date;
     }
 
+    public String getPhotoFileName(){
+        return "IMG_"+getId()+".jpg";
+    }
+
 }

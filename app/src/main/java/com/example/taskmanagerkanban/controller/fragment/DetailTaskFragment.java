@@ -3,19 +3,29 @@ package com.example.taskmanagerkanban.controller.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +33,15 @@ import android.widget.Toast;
 import com.example.taskmanagerkanban.R;
 import com.example.taskmanagerkanban.model.Task;
 import com.example.taskmanagerkanban.repository.TaskRepository;
+import com.example.taskmanagerkanban.utils.PictureUtils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+
+import static android.content.ContentValues.TAG;
 
 
 public class DetailTaskFragment extends DialogFragment {
@@ -34,15 +49,20 @@ public class DetailTaskFragment extends DialogFragment {
     private static final String ARGS_USER_ID = "userId";
     private static final int REQUEST_CODE_DATE_PICKER = 0;
     private static final int REQUEST_CODE_TIME_PICKER = 1;
+    private static final int REQUEST_CODE_IMAGE_CAPTURE =2 ;
     private static final String FRAGMENT_TAG_DATE_PICKER ="datePicker" ;
     private static final String FRAGMENT_TAG_TIME_PICKER = "timePicker" ;
     private static final String TAG_CALLBACK = "callback";
+    private static final String AUTHORITY = "com.example.taskmanagerkanban.fileProvide";
+    private File mFile_photo;
 
     private Callbacks mCallbacks;
     private TextView mTextView_save,mTextView_edit,mTextView_delete;
     private RadioButton mRadioButton_todo,mRadioButton_doing,mRadioButton_done;
     private EditText mEditText_title,mEditText_desc;
     private Button mButton_date,mButton_clock;
+    private ImageView mImageView_photo;
+    private ImageButton mImageButton_camera;
     private Task mTask;
     private UUID mUserId;
     private TaskRepository mTaskRepository;
@@ -85,6 +105,11 @@ public class DetailTaskFragment extends DialogFragment {
             mTask.setDate((Date) data.getSerializableExtra(TimePickerDialogFragment.EXTRA_TIME_PICKER_DATE));
             mButton_clock.setText(getStringForClock());
         }
+        else if (requestCode==REQUEST_CODE_IMAGE_CAPTURE){
+            getActivity().revokeUriPermission(generateUriForFile(),
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            updatePhotoView();
+        }
     }
 
 
@@ -95,6 +120,7 @@ public class DetailTaskFragment extends DialogFragment {
         mTask= (Task) getArguments().getSerializable(ARGS_TASK);
         mUserId= (UUID) getArguments().getSerializable(ARGS_USER_ID);
         mTaskRepository=TaskRepository.getInstance(getActivity());
+        mFile_photo=mTaskRepository.getPhotoFile(mTask);
     }
 
     @NonNull
@@ -105,6 +131,7 @@ public class DetailTaskFragment extends DialogFragment {
         findViews(view);
         setValues();
         setListeners();
+        updatePhotoView();
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         builder.setView(view);
         builder.setTitle("Detail page");
@@ -123,6 +150,8 @@ public class DetailTaskFragment extends DialogFragment {
         mTextView_edit=view.findViewById(R.id.edit_btn);
         mTextView_delete=view.findViewById(R.id.delete_btn);
         mButton_clock=view.findViewById(R.id.clock_dialog);
+        mImageView_photo=view.findViewById(R.id.photo_imageView);
+        mImageButton_camera=view.findViewById(R.id.camera_imageButton);
     }
     private void setValues(){
 
@@ -141,6 +170,7 @@ public class DetailTaskFragment extends DialogFragment {
             default:
                 mRadioButton_done.setChecked(true);
         }
+        // TODO: 11/6/2020 set pic
 
     }
     private void setListeners(){
@@ -192,7 +222,40 @@ public class DetailTaskFragment extends DialogFragment {
 
             }
         });
+        mImageButton_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                try {
+                    if (mFile_photo !=null &&
+                            takePictureIntent.resolveActivity(getActivity().getPackageManager()) !=null){
+                        Uri photoUri= generateUriForFile();
+                        List<ResolveInfo>activities=getActivity().getPackageManager()
+                                .queryIntentActivities(
+                                        takePictureIntent,
+                                        PackageManager.MATCH_DEFAULT_ONLY);
+                        for (ResolveInfo activity:activities) {
+                            getActivity().grantUriPermission(
+                                    activity.activityInfo.packageName,
+                                    photoUri,
+                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            );
+                        }
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
+                        startActivityForResult(takePictureIntent, REQUEST_CODE_IMAGE_CAPTURE);
+                    }
+
+                } catch (ActivityNotFoundException e) {
+                    Log.e(TAG, e.getMessage(),e );
+                }
+            }
+        });
     }
+
+    private Uri generateUriForFile() {
+        return FileProvider.getUriForFile(getContext(),AUTHORITY,mFile_photo);
+    }
+
     private void getDialogView(){
         mTask.setTitle(mEditText_title.getText().toString());
         mTask.setDescription(mEditText_desc.getText().toString());
@@ -215,6 +278,12 @@ public class DetailTaskFragment extends DialogFragment {
     private String getStringForClock(){
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh : mm a");
         return simpleDateFormat.format(mTask.getDate());
+    }
+    private void updatePhotoView(){
+        if (mFile_photo==null || !mFile_photo.exists())
+            return;
+        Bitmap bitmap= PictureUtils.getScaledBitmap(mFile_photo.getAbsolutePath(),getActivity());
+        mImageView_photo.setImageBitmap(bitmap);
     }
 
     public interface Callbacks{

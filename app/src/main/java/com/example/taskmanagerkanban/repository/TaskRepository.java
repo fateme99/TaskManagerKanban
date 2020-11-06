@@ -15,6 +15,7 @@ import com.example.taskmanagerkanban.database.DatabaseSchema.TaskTable.TaskCols;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -181,6 +182,12 @@ public class TaskRepository {
                 null
         );
         return new TaskCursorWrapper(cursor);
+    }
+
+    public File getPhotoFile(Task task){
+        File fileDir=mContext.getFilesDir();
+        File file=new File(fileDir,task.getPhotoFileName());
+        return file;
     }
 
 }
